@@ -89,7 +89,7 @@ export default function FacilitatorExport() {
           <div className="space-y-2 mb-6">
             {SHEETS.map(s => (
               <div key={s.name} className="flex items-center gap-3 py-1.5 border-b border-gray-100 last:border-0">
-                <div className="w-2 h-2 rounded-full bg-[#1F4E79] shrink-0" />
+                <div className="w-2 h-2 rounded-full bg-[#0F52BA] shrink-0" />
                 <div>
                   <span className="font-medium text-sm text-gray-900">{s.name}</span>
                   <span className="text-gray-500 text-sm"> — {s.desc}</span>

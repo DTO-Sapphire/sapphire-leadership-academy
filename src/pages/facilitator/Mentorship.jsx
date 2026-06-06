@@ -62,7 +62,7 @@ export default function FacilitatorMentorship() {
     }))
   }
 
-  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar facilitatorMode /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1F4E79]" /></div></div>
+  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar facilitatorMode /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0F52BA]" /></div></div>
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -94,7 +94,7 @@ export default function FacilitatorMentorship() {
                 {TOPICS.map(t => (
                   <button type="button" key={t}
                     onClick={() => toggleTopic(t)}
-                    className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${form.topics_covered.includes(t) ? 'bg-[#1F4E79] text-white border-[#1F4E79]' : 'bg-white text-gray-600 border-gray-300 hover:border-[#1F4E79]'}`}>
+                    className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${form.topics_covered.includes(t) ? 'bg-[#0F52BA] text-white border-[#0F52BA]' : 'bg-white text-gray-600 border-gray-300 hover:border-[#0F52BA]'}`}>
                     {t}
                   </button>
                 ))}
@@ -122,7 +122,7 @@ export default function FacilitatorMentorship() {
                 <div key={s.id} className="border border-gray-200 rounded-xl p-4">
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2">
-                      <Users size={16} className="text-[#1F4E79]" />
+                      <Users size={16} className="text-[#0F52BA]" />
                       <span className="font-semibold text-gray-900">{s.participants?.name}</span>
                       <span className="text-xs text-gray-400">with {s.facilitators?.name}</span>
                     </div>

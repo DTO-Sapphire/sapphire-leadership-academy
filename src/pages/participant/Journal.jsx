@@ -16,7 +16,7 @@ export default function Journal() {
       .then(({ data }) => { setEntries(data || []); setLoading(false) })
   }, [participant])
 
-  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1F4E79]" /></div></div>
+  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0F52BA]" /></div></div>
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -54,7 +54,7 @@ export default function Journal() {
                       { label: 'Expected Result', value: entry.expected_result },
                     ].map(item => (
                       <div key={item.label}>
-                        <p className="text-xs font-semibold text-[#1F4E79] uppercase tracking-wide mb-1">{item.label}</p>
+                        <p className="text-xs font-semibold text-[#0F52BA] uppercase tracking-wide mb-1">{item.label}</p>
                         <p className="text-sm text-gray-700 leading-relaxed">{item.value}</p>
                       </div>
                     ))}

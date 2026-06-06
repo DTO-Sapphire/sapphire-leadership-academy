@@ -47,7 +47,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1F4E79]" />
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0F52BA]" />
       </div>
     </div>
   )
@@ -82,7 +82,7 @@ export default function Dashboard() {
           </div>
         )}
         {baseline && finalOpen && !final && (
-          <div className="bg-[#1F4E79] text-white rounded-xl p-4 mb-4 flex items-start gap-3">
+          <div className="bg-[#0F52BA] text-white rounded-xl p-4 mb-4 flex items-start gap-3">
             <Star className="mt-0.5 shrink-0" size={20} />
             <div>
               <p className="font-semibold">Final Assessment is Now Open!</p>
@@ -119,7 +119,7 @@ export default function Dashboard() {
             { icon: <Star size={20} className="text-amber-500" />, label: 'Baseline Assessment', value: baseline ? 'Complete' : 'Pending', badge: baseline ? 'badge-green' : 'badge-yellow', link: '/dashboard/assessment' },
             { icon: <CheckCircle size={20} className="text-green-500" />, label: 'Sessions Attended', value: `${attended} of ${totalSessions}`, link: null },
             { icon: <BookOpen size={20} className="text-blue-500" />, label: 'Reflections', value: `${reflectedIds.size} submitted`, link: '/dashboard/reflect' },
-            { icon: <TrendingUp size={20} className="text-[#1F4E79]" />, label: 'My Scorecard', value: `${score.toFixed(0)} / 100`, badge: score >= 75 ? 'badge-green' : score >= 50 ? 'badge-yellow' : 'badge-red', link: null },
+            { icon: <TrendingUp size={20} className="text-[#0F52BA]" />, label: 'My Scorecard', value: `${score.toFixed(0)} / 100`, badge: score >= 75 ? 'badge-green' : score >= 50 ? 'badge-yellow' : 'badge-red', link: null },
           ].map((card, i) => (
             <div key={i} className="card flex flex-col gap-2">
               {card.icon}

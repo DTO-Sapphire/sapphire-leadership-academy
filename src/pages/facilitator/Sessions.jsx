@@ -39,7 +39,7 @@ export default function FacilitatorSessions() {
     else { toast.success('Setting updated'); await load() }
   }
 
-  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar facilitatorMode /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1F4E79]" /></div></div>
+  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar facilitatorMode /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0F52BA]" /></div></div>
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -94,7 +94,7 @@ export default function FacilitatorSessions() {
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-[#1F4E79]">S{s.session_number}</span>
+                        <span className="text-xs font-bold text-[#0F52BA]">S{s.session_number}</span>
                         <span className="font-semibold text-gray-900">{s.title}</span>
                       </div>
                       <p className="text-xs text-gray-500 mt-0.5">

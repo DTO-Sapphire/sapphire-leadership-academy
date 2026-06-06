@@ -107,7 +107,7 @@ export default function Assessment() {
     }
   }
 
-  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1F4E79]" /></div></div>
+  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0F52BA]" /></div></div>
 
   if (baseline && final) return (
     <div className="min-h-screen bg-gray-50"><NavBar />
@@ -145,13 +145,13 @@ export default function Assessment() {
       <div className="max-w-xl mx-auto px-4 py-8">
         <div className="mb-4">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-sm font-medium text-[#1F4E79]">
+            <span className="text-sm font-medium text-[#0F52BA]">
               {type === 'baseline' ? 'Baseline Assessment' : 'Final Assessment'}
             </span>
             <span className="text-sm text-gray-500">{currentIndex + 1} of {order.length}</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div className="bg-[#1F4E79] h-2 rounded-full transition-all" style={{ width: `${progress}%` }} />
+            <div className="bg-[#0F52BA] h-2 rounded-full transition-all" style={{ width: `${progress}%` }} />
           </div>
         </div>
 
@@ -166,14 +166,14 @@ export default function Assessment() {
             <div className="grid grid-cols-10 gap-1.5 mb-6">
               {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
                 <button key={n} onClick={() => rate(n)}
-                  className={`h-12 rounded-lg font-bold text-sm transition-all ${ratings[currentKey] === n ? 'bg-[#1F4E79] text-white scale-105 shadow' : 'bg-gray-100 hover:bg-blue-100 text-gray-700'}`}>
+                  className={`h-12 rounded-lg font-bold text-sm transition-all ${ratings[currentKey] === n ? 'bg-[#0F52BA] text-white scale-105 shadow' : 'bg-gray-100 hover:bg-blue-100 text-gray-700'}`}>
                   {n}
                 </button>
               ))}
             </div>
             {ratings[currentKey] && (
               <p className="text-center text-sm text-gray-600 mb-4">
-                You rated: <strong className="text-[#1F4E79]">{ratings[currentKey]}/10</strong>
+                You rated: <strong className="text-[#0F52BA]">{ratings[currentKey]}/10</strong>
               </p>
             )}
             <div className="flex gap-3">
@@ -193,7 +193,7 @@ export default function Assessment() {
             const c = COMPETENCIES.find(c => c.key === k)
             return (
               <button key={k} onClick={() => setCurrentIndex(i)}
-                className={`p-2 rounded-lg text-xs text-center transition-all ${i === currentIndex ? 'bg-[#1F4E79] text-white' : ratings[k] ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                className={`p-2 rounded-lg text-xs text-center transition-all ${i === currentIndex ? 'bg-[#0F52BA] text-white' : ratings[k] ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
                 {c?.label.split(' ')[0]}
               </button>
             )

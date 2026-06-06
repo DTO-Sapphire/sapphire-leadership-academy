@@ -37,7 +37,7 @@ export default function FacilitatorLive() {
   const absent = participants.filter(p => !attendance[`${p.id}_${selectedSession}`])
 
   return (
-    <div className="min-h-screen bg-[#1F4E79] text-white">
+    <div className="min-h-screen bg-[#0F52BA] text-white">
       <div className="max-w-5xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <div>

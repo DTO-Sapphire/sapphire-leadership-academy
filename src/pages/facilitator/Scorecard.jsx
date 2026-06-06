@@ -65,7 +65,7 @@ export default function FacilitatorScorecard() {
     setSaving(null)
   }
 
-  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar facilitatorMode /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1F4E79]" /></div></div>
+  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar facilitatorMode /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0F52BA]" /></div></div>
 
   const selectedParticipant = participants.find(p => p.id === selected)
 
@@ -110,7 +110,7 @@ export default function FacilitatorScorecard() {
                       ) : <span className="badge-gray">Not set</span>}
                     </td>
                     <td className="py-2 pl-2">
-                      <button onClick={() => setSelected(selected === p.id ? null : p.id)} className="text-xs text-[#1F4E79] font-medium hover:underline">Edit</button>
+                      <button onClick={() => setSelected(selected === p.id ? null : p.id)} className="text-xs text-[#0F52BA] font-medium hover:underline">Edit</button>
                     </td>
                   </tr>
                 )
@@ -121,7 +121,7 @@ export default function FacilitatorScorecard() {
 
         {/* Edit panel */}
         {selected && selectedParticipant && (
-          <div className="card border-2 border-[#1F4E79]">
+          <div className="card border-2 border-[#0F52BA]">
             <h2 className="font-bold text-gray-900 mb-4">Editing: {selectedParticipant.name}</h2>
             <div className="grid sm:grid-cols-2 gap-4 mb-4">
               {FIELDS.map(f => {

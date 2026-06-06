@@ -32,7 +32,7 @@ export default function FacilitatorDashboard() {
     setLoading(false)
   }
 
-  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar facilitatorMode /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1F4E79]" /></div></div>
+  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar facilitatorMode /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0F52BA]" /></div></div>
 
   const { pCount, openSessions, attPairs, reflections, baselines, finals, graduated, sessions, participants } = stats
 
@@ -57,7 +57,7 @@ export default function FacilitatorDashboard() {
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Participants', value: pCount, icon: <Users size={18} className="text-[#1F4E79]" /> },
+            { label: 'Participants', value: pCount, icon: <Users size={18} className="text-[#0F52BA]" /> },
             { label: 'Total Attendance', value: attPairs, icon: <CheckCircle size={18} className="text-green-600" /> },
             { label: 'Reflections In', value: reflections, icon: <BookOpen size={18} className="text-blue-600" /> },
             { label: 'Graduated (≥75)', value: graduated, icon: <Star size={18} className="text-amber-500" /> },
@@ -73,9 +73,9 @@ export default function FacilitatorDashboard() {
         <div className="grid grid-cols-2 gap-4 mb-8">
           <div className="card">
             <p className="text-sm text-gray-500 mb-2">Baseline Assessments</p>
-            <p className="text-2xl font-bold text-[#1F4E79]">{baselines} / {pCount}</p>
+            <p className="text-2xl font-bold text-[#0F52BA]">{baselines} / {pCount}</p>
             <div className="mt-2 bg-gray-100 rounded-full h-2">
-              <div className="bg-[#1F4E79] h-2 rounded-full" style={{ width: `${pCount ? (baselines/pCount)*100 : 0}%` }} />
+              <div className="bg-[#0F52BA] h-2 rounded-full" style={{ width: `${pCount ? (baselines/pCount)*100 : 0}%` }} />
             </div>
           </div>
           <div className="card">

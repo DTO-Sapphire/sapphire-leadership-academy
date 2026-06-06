@@ -43,11 +43,17 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1F4E79] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#0F52BA] flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-8">
         <div className="text-center mb-6">
-          <span className="text-3xl">💎</span>
-          <h1 className="text-2xl font-bold text-[#1F4E79] mt-2">Welcome Back</h1>
+          <div className="flex justify-center mb-3">
+            <svg width="44" height="42" viewBox="0 0 52 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="4,2 38,2 34,20 0,20" fill="#0F52BA"/>
+              <polygon points="14,24 44,24 40,44 10,44" fill="#00C2CB"/>
+              <circle cx="47" cy="44" r="5.5" fill="#FFAF46"/>
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-[#0F52BA] mt-1">Welcome Back</h1>
           <p className="text-gray-500 text-sm">Sapphire Leadership Academy</p>
         </div>
         {step === 'email' ? (
@@ -61,7 +67,7 @@ export default function Login() {
               {loading ? 'Sending...' : 'Send OTP Code'}
             </button>
             <p className="text-center text-sm text-gray-500">
-              New participant? <Link to="/register" className="text-[#1F4E79] font-medium">Register here</Link>
+              New participant? <Link to="/register" className="text-[#0F52BA] font-medium">Register here</Link>
             </p>
           </form>
         ) : (

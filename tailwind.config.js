@@ -4,24 +4,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        sapphire: {
-          50:  '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e3a8a',
-          900: '#1F4E79',
-          950: '#172554',
-        },
-        gold: {
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-        }
+        sapphire:  '#0F52BA',
+        teal:      '#00C2CB',
+        lightblue: '#98DFEA',
+        orange:    '#FFAF46',
+        navy:      '#0A3480',
+      },
+      fontFamily: {
+        sans: ['General Sans', 'Inter', 'system-ui', 'sans-serif'],
       },
     },
   },

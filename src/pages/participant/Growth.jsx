@@ -29,7 +29,7 @@ export default function Growth() {
     ]).then(([{ data: b }, { data: f }]) => { setBaseline(b); setFinal(f); setLoading(false) })
   }, [participant])
 
-  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#1F4E79]" /></div></div>
+  if (loading) return <div className="min-h-screen bg-gray-50"><NavBar /><div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0F52BA]" /></div></div>
 
   if (!baseline) return (
     <div className="min-h-screen bg-gray-50"><NavBar />
@@ -71,14 +71,14 @@ export default function Growth() {
             <p className="text-2xl font-bold text-gray-500">{baselineAvg.toFixed(1)}</p>
             <p className="text-xs text-gray-400 mt-1">Baseline avg</p>
           </div>
-          <div className="card text-center bg-[#1F4E79] text-white">
+          <div className="card text-center bg-[#0F52BA] text-white">
             <p className={`text-2xl font-bold ${isPositive ? 'text-green-300' : 'text-red-300'}`}>
               {isPositive ? '+' : ''}{growthPct}%
             </p>
             <p className="text-xs text-blue-200 mt-1">Growth</p>
           </div>
           <div className="card text-center">
-            <p className="text-2xl font-bold text-[#1F4E79]">{finalAvg.toFixed(1)}</p>
+            <p className="text-2xl font-bold text-[#0F52BA]">{finalAvg.toFixed(1)}</p>
             <p className="text-xs text-gray-400 mt-1">Final avg</p>
           </div>
         </div>
@@ -90,13 +90,13 @@ export default function Growth() {
               <PolarGrid />
               <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11 }} />
               <Radar name="Baseline" dataKey="Baseline" stroke="#94a3b8" fill="#94a3b8" fillOpacity={0.3} />
-              <Radar name="Final" dataKey="Final" stroke="#1F4E79" fill="#1F4E79" fillOpacity={0.4} />
+              <Radar name="Final" dataKey="Final" stroke="#0F52BA" fill="#0F52BA" fillOpacity={0.4} />
               <Tooltip />
             </RadarChart>
           </ResponsiveContainer>
           <div className="flex justify-center gap-6 mt-2 text-xs text-gray-500">
             <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-[#94a3b8]" /> Baseline</div>
-            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-[#1F4E79]" /> Final</div>
+            <div className="flex items-center gap-1.5"><div className="w-3 h-3 rounded bg-[#0F52BA]" /> Final</div>
           </div>
         </div>
 
@@ -112,12 +112,12 @@ export default function Growth() {
                   <div className="w-28 text-xs text-gray-600 shrink-0">{c.label}</div>
                   <div className="flex-1 relative h-5 bg-gray-100 rounded-full overflow-hidden">
                     <div className="absolute inset-y-0 left-0 bg-gray-300 rounded-full" style={{ width: `${b * 10}%` }} />
-                    <div className="absolute inset-y-0 left-0 bg-[#1F4E79] rounded-full opacity-70" style={{ width: `${f * 10}%` }} />
+                    <div className="absolute inset-y-0 left-0 bg-[#0F52BA] rounded-full opacity-70" style={{ width: `${f * 10}%` }} />
                   </div>
                   <div className="text-xs w-20 text-right shrink-0">
                     <span className="text-gray-500">{b}</span>
                     <span className="mx-1">→</span>
-                    <span className="font-semibold text-[#1F4E79]">{f}</span>
+                    <span className="font-semibold text-[#0F52BA]">{f}</span>
                     <span className={`ml-1 ${diff > 0 ? 'text-green-600' : diff < 0 ? 'text-red-500' : 'text-gray-400'}`}>
                       ({diff > 0 ? '+' : ''}{diff})
                     </span>

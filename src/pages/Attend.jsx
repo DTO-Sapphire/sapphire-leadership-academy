@@ -31,13 +31,13 @@ export default function PublicAttend() {
   }
 
   if (loading || fetching) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1F4E79]">
+    <div className="min-h-screen flex items-center justify-center bg-[#0F52BA]">
       <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-white" />
     </div>
   )
 
   return (
-    <div className="min-h-screen bg-[#1F4E79] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#0F52BA] flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-8 text-center">
         {!session ? (
           <>
@@ -48,7 +48,7 @@ export default function PublicAttend() {
         ) : !user ? (
           <>
             <div className="text-5xl mb-4">🔐</div>
-            <h2 className="text-xl font-bold text-[#1F4E79] mb-2">{session.title}</h2>
+            <h2 className="text-xl font-bold text-[#0F52BA] mb-2">{session.title}</h2>
             <p className="text-gray-500 text-sm mb-6">Log in to mark your attendance</p>
             <Link to={`/login`} className="btn-primary inline-block w-full">Log In to Check In</Link>
           </>
