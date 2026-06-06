@@ -48,11 +48,11 @@ export default function Landing() {
         </div>
 
         {/* QR Code */}
-        <div className="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20">
-          <div className="bg-white p-3 rounded-xl inline-block mb-3 shadow">
-            <QRCodeSVG value={`${APP_URL}/register`} size={140} fgColor="#0F52BA" />
+        <div className="bg-white/10 backdrop-blur rounded-2xl p-6 border border-white/20 flex flex-col items-center">
+          <div className="bg-white p-3 rounded-xl mb-3 shadow">
+            <QRCodeSVG value={`${APP_URL}/register`} size={148} fgColor="#0F52BA" />
           </div>
-          <p className="text-[#98DFEA] text-sm text-center">Scan to register on your phone</p>
+          <p className="text-[#98DFEA] text-sm">Scan to register on your phone</p>
         </div>
       </div>
 
