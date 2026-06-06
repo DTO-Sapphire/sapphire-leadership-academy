@@ -1,0 +1,139 @@
+import { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import { supabase } from '../lib/supabase'
+import { useAuth } from '../hooks/useAuth'
+import toast from 'react-hot-toast'
+
+const DEPARTMENTS = [
+  'Finance', 'Retail Operations', 'Customer Support', 'Collections & Recovery',
+  'Claims', 'Marketing', 'Digital Transformation Office', 'Human Resources',
+  'Technology', 'Executive / Management', 'Other',
+]
+
+export default function Register() {
+  const [step, setStep] = useState('form') // form | otp | done
+  const [form, setForm] = useState({ name: '', department: '', role: '', reporting_manager: '', email: '', phone: '' })
+  const [otp, setOtp] = useState('')
+  const [loading, setLoading] = useState(false)
+  const { loadProfile } = useAuth()
+  const navigate = useNavigate()
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const { error } = await supabase.auth.signInWithOtp({ email: form.email, options: { shouldCreateUser: true } })
+      if (error) throw error
+      setStep('otp')
+      toast.success('Check your email for the 6-digit code!')
+    } catch (err) {
+      toast.error(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleOtp = async e => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({ email: form.email, token: otp, type: 'email' })
+      if (error) throw error
+      const user = data.session?.user
+      if (!user) throw new Error('Login failed')
+
+      const { data: existing } = await supabase.from('participants').select('id').eq('email', form.email).single()
+      if (existing) {
+        await supabase.from('participants').update({ user_id: user.id }).eq('id', existing.id)
+      } else {
+        const { error: insertErr } = await supabase.from('participants').insert({
+          ...form, user_id: user.id
+        })
+        if (insertErr) throw insertErr
+      }
+
+      await loadProfile(user)
+      toast.success('Welcome to Sapphire Leadership Academy!')
+      navigate('/dashboard')
+    } catch (err) {
+      toast.error(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-[#1F4E79] flex items-center justify-center px-4 py-8">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
+        <div className="text-center mb-6">
+          <span className="text-3xl">💎</span>
+          <h1 className="text-2xl font-bold text-[#1F4E79] mt-2">Join the Academy</h1>
+          <p className="text-gray-500 text-sm">Sapphire Leadership Academy · June 2026</p>
+        </div>
+
+        {step === 'form' && (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="label">Full Name *</label>
+              <input className="input" required value={form.name}
+                onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. Adebayo Okafor" />
+            </div>
+            <div>
+              <label className="label">Department *</label>
+              <select className="input" required value={form.department}
+                onChange={e => setForm(f => ({ ...f, department: e.target.value }))}>
+                <option value="">Select department</option>
+                {DEPARTMENTS.map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="label">Job Title / Role *</label>
+              <input className="input" required value={form.role}
+                onChange={e => setForm(f => ({ ...f, role: e.target.value }))} placeholder="e.g. Senior Analyst" />
+            </div>
+            <div>
+              <label className="label">Reporting Manager *</label>
+              <input className="input" required value={form.reporting_manager}
+                onChange={e => setForm(f => ({ ...f, reporting_manager: e.target.value }))} placeholder="Manager's name" />
+            </div>
+            <div>
+              <label className="label">Email Address *</label>
+              <input className="input" type="email" required value={form.email}
+                onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="you@sapphirevirtualnetworks.com" />
+            </div>
+            <div>
+              <label className="label">Phone Number *</label>
+              <input className="input" required value={form.phone}
+                onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="08012345678" />
+            </div>
+            <button type="submit" disabled={loading} className="btn-primary w-full mt-2">
+              {loading ? 'Sending code...' : 'Register & Get OTP'}
+            </button>
+            <p className="text-center text-sm text-gray-500">
+              Already registered? <Link to="/login" className="text-[#1F4E79] font-medium">Log in</Link>
+            </p>
+          </form>
+        )}
+
+        {step === 'otp' && (
+          <form onSubmit={handleOtp} className="space-y-4">
+            <p className="text-gray-600 text-sm text-center">
+              A 6-digit code was sent to <strong>{form.email}</strong>
+            </p>
+            <div>
+              <label className="label">Enter OTP Code</label>
+              <input className="input text-center text-2xl tracking-widest" maxLength={6} required
+                value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} placeholder="000000" />
+            </div>
+            <button type="submit" disabled={loading} className="btn-primary w-full">
+              {loading ? 'Verifying...' : 'Verify & Continue'}
+            </button>
+            <button type="button" onClick={() => setStep('form')} className="btn-secondary w-full">
+              Back
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  )
+}
