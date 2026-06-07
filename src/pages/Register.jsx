@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
@@ -11,12 +11,23 @@ const DEPARTMENTS = [
 ]
 
 export default function Register() {
-  const [step, setStep] = useState('form') // form | otp | done
+  const [step, setStep] = useState('form') // form | otp
   const [form, setForm] = useState({ name: '', department: '', role: '', reporting_manager: '', email: '', phone: '' })
   const [otp, setOtp] = useState('')
   const [loading, setLoading] = useState(false)
+  const [countdown, setCountdown] = useState(0)
   const { loadProfile } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (step === 'otp') setCountdown(60)
+  }, [step])
+
+  useEffect(() => {
+    if (countdown <= 0) return
+    const t = setTimeout(() => setCountdown(c => c - 1), 1000)
+    return () => clearTimeout(t)
+  }, [countdown])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -26,6 +37,21 @@ export default function Register() {
       if (error) throw error
       setStep('otp')
       toast.success('Check your email for the 6-digit code!')
+    } catch (err) {
+      toast.error(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const resendOtp = async () => {
+    setLoading(true)
+    try {
+      const { error } = await supabase.auth.signInWithOtp({ email: form.email, options: { shouldCreateUser: true } })
+      if (error) throw error
+      setOtp('')
+      setCountdown(60)
+      toast.success('New code sent!')
     } catch (err) {
       toast.error(err.message)
     } finally {
@@ -132,14 +158,27 @@ export default function Register() {
             <div>
               <label className="label">Enter OTP Code</label>
               <input className="input text-center text-2xl tracking-widest" maxLength={6} required
-                value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} placeholder="000000" />
+                value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} placeholder="000000"
+                autoFocus />
             </div>
             <button type="submit" disabled={loading} className="btn-primary w-full">
               {loading ? 'Verifying...' : 'Verify & Continue'}
             </button>
-            <button type="button" onClick={() => setStep('form')} className="btn-secondary w-full">
+            <button type="button" onClick={() => { setStep('form'); setOtp('') }} className="btn-secondary w-full">
               Back
             </button>
+            <div className="text-center text-sm pt-1">
+              {countdown > 0 ? (
+                <p className="text-gray-400">
+                  Resend code in <span className="font-semibold text-gray-600">{countdown}s</span>
+                </p>
+              ) : (
+                <button type="button" onClick={resendOtp} disabled={loading}
+                  className="text-[#0F52BA] font-semibold hover:underline disabled:opacity-50">
+                  Resend OTP
+                </button>
+              )}
+            </div>
           </form>
         )}
       </div>

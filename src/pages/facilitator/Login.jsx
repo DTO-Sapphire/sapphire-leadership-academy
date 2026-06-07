@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
@@ -9,8 +9,19 @@ export default function FacilitatorLogin() {
   const [otp, setOtp] = useState('')
   const [step, setStep] = useState('email')
   const [loading, setLoading] = useState(false)
+  const [countdown, setCountdown] = useState(0)
   const { loadProfile } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (step === 'otp') setCountdown(60)
+  }, [step])
+
+  useEffect(() => {
+    if (countdown <= 0) return
+    const t = setTimeout(() => setCountdown(c => c - 1), 1000)
+    return () => clearTimeout(t)
+  }, [countdown])
 
   const sendOtp = async e => {
     e.preventDefault()
@@ -20,6 +31,21 @@ export default function FacilitatorLogin() {
       if (error) throw error
       setStep('otp')
       toast.success('OTP sent!')
+    } catch (err) {
+      toast.error(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const resendOtp = async () => {
+    setLoading(true)
+    try {
+      const { error } = await supabase.auth.signInWithOtp({ email })
+      if (error) throw error
+      setOtp('')
+      setCountdown(60)
+      toast.success('New code sent!')
     } catch (err) {
       toast.error(err.message)
     } finally {
@@ -60,6 +86,7 @@ export default function FacilitatorLogin() {
           <h1 className="text-2xl font-bold text-[#0F52BA] mt-1">Facilitator Access</h1>
           <p className="text-gray-500 text-sm">Sapphire Leadership Academy</p>
         </div>
+
         {step === 'email' ? (
           <form onSubmit={sendOtp} className="space-y-4">
             <div>
@@ -77,14 +104,30 @@ export default function FacilitatorLogin() {
             <div>
               <label className="label">6-Digit OTP</label>
               <input className="input text-center text-2xl tracking-widest" maxLength={6} required
-                value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} placeholder="000000" />
+                value={otp} onChange={e => setOtp(e.target.value.replace(/\D/g, ''))} placeholder="000000"
+                autoFocus />
             </div>
             <button type="submit" disabled={loading} className="btn-primary w-full">
               {loading ? 'Verifying...' : 'Log In'}
             </button>
-            <button type="button" onClick={() => setStep('email')} className="btn-secondary w-full">Back</button>
+            <button type="button" onClick={() => { setStep('email'); setOtp('') }} className="btn-secondary w-full">
+              Back
+            </button>
+            <div className="text-center text-sm pt-1">
+              {countdown > 0 ? (
+                <p className="text-gray-400">
+                  Resend code in <span className="font-semibold text-gray-600">{countdown}s</span>
+                </p>
+              ) : (
+                <button type="button" onClick={resendOtp} disabled={loading}
+                  className="text-[#0F52BA] font-semibold hover:underline disabled:opacity-50">
+                  Resend OTP
+                </button>
+              )}
+            </div>
           </form>
         )}
+
         <div className="mt-4 text-center">
           <Link to="/" className="text-xs text-gray-400 hover:text-gray-600">← Back to main site</Link>
         </div>
