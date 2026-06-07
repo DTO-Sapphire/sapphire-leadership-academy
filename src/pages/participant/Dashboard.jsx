@@ -64,7 +64,7 @@ export default function Dashboard() {
       <NavBar />
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Welcome, {participant?.name} 👋</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Welcome, {participant?.name}</h1>
           <p className="text-gray-500 text-sm mt-1">{participant?.role} · {participant?.department}</p>
         </div>
 
@@ -85,7 +85,7 @@ export default function Dashboard() {
           <div className="bg-[#0F52BA] text-white rounded-xl p-4 mb-4 flex items-start gap-3">
             <Star className="mt-0.5 shrink-0" size={20} />
             <div>
-              <p className="font-semibold">Final Assessment is Now Open!</p>
+              <p className="font-semibold">The final assessment is now open.</p>
               <p className="text-blue-200 text-sm">Complete your final self-assessment to see your leadership growth.</p>
               <Link to="/dashboard/assessment" className="inline-block mt-2 text-sm font-medium text-white underline">
                 Take Final Assessment →
@@ -97,7 +97,7 @@ export default function Dashboard() {
           <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-4 flex items-center gap-3">
             <CheckCircle className="text-green-600 shrink-0" size={20} />
             <div>
-              <p className="font-semibold text-green-800">Both assessments complete!</p>
+              <p className="font-semibold text-green-800">Both assessments submitted.</p>
               <Link to="/dashboard/growth" className="text-sm text-green-700 underline">View your Growth Index →</Link>
             </div>
           </div>

@@ -62,7 +62,7 @@ export default function FacilitatorSessions() {
               <button
                 onClick={() => updateSetting('final_assessment_open', settings.final_assessment_open === 'true' ? 'false' : 'true')}
                 className={settings.final_assessment_open === 'true' ? 'btn-danger' : 'btn-primary'}>
-                {settings.final_assessment_open === 'true' ? '🔒 Close Final Assessment' : '🔓 Open Final Assessment'}
+                {settings.final_assessment_open === 'true' ? 'Close Final Assessment' : 'Open Final Assessment'}
               </button>
             </div>
           </div>
@@ -98,7 +98,7 @@ export default function FacilitatorSessions() {
                         <span className="font-semibold text-gray-900">{s.title}</span>
                       </div>
                       <p className="text-xs text-gray-500 mt-0.5">
-                        {date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })} · {s.session_time} · {s.facilitators?.name}
+                        {date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })} · {s.facilitators?.name}
                       </p>
                     </div>
                     <button onClick={() => setQrSession(s)} className="btn-secondary text-xs px-2 py-1">QR Code</button>
@@ -108,13 +108,13 @@ export default function FacilitatorSessions() {
                       disabled={saving === `${s.id}_is_open`}
                       onClick={() => toggleFlag(s.id, 'is_open', s.is_open)}
                       className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${s.is_open ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-                      {s.is_open ? '✓ Session Open' : '○ Session Closed'}
+                      {s.is_open ? 'Session Open' : 'Session Closed'}
                     </button>
                     <button
                       disabled={saving === `${s.id}_reflections_open`}
                       onClick={() => toggleFlag(s.id, 'reflections_open', s.reflections_open)}
                       className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${s.reflections_open ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>
-                      {s.reflections_open ? '✓ Reflections Open' : '○ Reflections Closed'}
+                      {s.reflections_open ? 'Reflections Open' : 'Reflections Closed'}
                     </button>
                   </div>
                 </div>

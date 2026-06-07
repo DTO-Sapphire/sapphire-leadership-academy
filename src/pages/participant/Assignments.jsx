@@ -36,7 +36,7 @@ export default function Assignments() {
     setSubmitting(assignment.id)
     try {
       const { error } = await supabase.from('assignment_submissions').insert({
-        participant_id: participant.id, assignment_id: assignment.id, response: response.trim()
+        participant_id: participant.id, assignment_id: assignment.id, content: response.trim()
       })
       if (error) throw error
       toast.success('Assignment submitted!')
@@ -89,7 +89,7 @@ export default function Assignments() {
                 {status === 'submitted' ? (
                   <div className="bg-green-50 rounded-lg p-3">
                     <p className="text-xs font-semibold text-green-700 mb-1">Your Submission</p>
-                    <p className="text-sm text-gray-700">{sub.response}</p>
+                    <p className="text-sm text-gray-700">{sub.content}</p>
                     <p className="text-xs text-gray-400 mt-2">
                       Submitted {new Date(sub.submitted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                     </p>

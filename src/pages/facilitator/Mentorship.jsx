@@ -15,7 +15,7 @@ export default function FacilitatorMentorship() {
   const { facilitator } = useAuth()
   const [participants, setParticipants] = useState([])
   const [sessions, setSessions] = useState([])
-  const [form, setForm] = useState({ participant_id: '', session_date: '', notes: '', topics_covered: [] })
+  const [form, setForm] = useState({ participant_id: '', session_date: '', notes: '', topics: [] })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
@@ -41,11 +41,11 @@ export default function FacilitatorMentorship() {
         facilitator_id: facilitator.id,
         session_date: form.session_date,
         notes: form.notes || null,
-        topics_covered: form.topics_covered.length > 0 ? form.topics_covered : null,
+        topics: form.topics.length > 0 ? form.topics : null,
       })
       if (error) throw error
-      toast.success('Mentorship session logged!')
-      setForm({ participant_id: '', session_date: '', notes: '', topics_covered: [] })
+      toast.success('Mentorship session logged')
+      setForm({ participant_id: '', session_date: '', notes: '', topics: [] })
       await load()
     } catch (err) {
       toast.error(err.message)
@@ -56,9 +56,9 @@ export default function FacilitatorMentorship() {
 
   function toggleTopic(topic) {
     setForm(f => ({
-      ...f, topics_covered: f.topics_covered.includes(topic)
-        ? f.topics_covered.filter(t => t !== topic)
-        : [...f.topics_covered, topic]
+      ...f, topics: f.topics.includes(topic)
+        ? f.topics.filter(t => t !== topic)
+        : [...f.topics, topic]
     }))
   }
 
@@ -94,7 +94,7 @@ export default function FacilitatorMentorship() {
                 {TOPICS.map(t => (
                   <button type="button" key={t}
                     onClick={() => toggleTopic(t)}
-                    className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${form.topics_covered.includes(t) ? 'bg-[#0F52BA] text-white border-[#0F52BA]' : 'bg-white text-gray-600 border-gray-300 hover:border-[#0F52BA]'}`}>
+                    className={`px-3 py-1 rounded-full text-xs font-medium border transition-colors ${form.topics.includes(t) ? 'bg-[#0F52BA] text-white border-[#0F52BA]' : 'bg-white text-gray-600 border-gray-300 hover:border-[#0F52BA]'}`}>
                     {t}
                   </button>
                 ))}
@@ -131,9 +131,9 @@ export default function FacilitatorMentorship() {
                       <span>{new Date(s.session_date + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                     </div>
                   </div>
-                  {s.topics_covered?.length > 0 && (
+                  {s.topics?.length > 0 && (
                     <div className="flex flex-wrap gap-1 mb-2">
-                      {s.topics_covered.map(t => <span key={t} className="badge-blue">{t}</span>)}
+                      {s.topics.map(t => <span key={t} className="badge-blue">{t}</span>)}
                     </div>
                   )}
                   {s.notes && <p className="text-sm text-gray-600">{s.notes}</p>}

@@ -20,7 +20,7 @@ export default function FacilitatorDashboard() {
       supabase.from('reflections').select('participant_id, session_id'),
       supabase.from('assessments').select('participant_id, type'),
       supabase.from('scorecard').select('participant_id, total_score, graduated'),
-      supabase.from('awards').select('award_type, participant_id'),
+      supabase.from('awards').select('category, participant_id'),
     ])
     const pCount = participants.data?.length || 0
     const attPairs = attendance.data?.length || 0

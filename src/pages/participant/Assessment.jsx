@@ -113,7 +113,6 @@ export default function Assessment() {
     <div className="min-h-screen bg-gray-50"><NavBar />
       <div className="max-w-xl mx-auto px-4 py-12 text-center">
         <div className="card">
-          <div className="text-4xl mb-4">✅</div>
           <h2 className="text-xl font-bold text-gray-900 mb-2">Both Assessments Complete</h2>
           <p className="text-gray-500 mb-4">You've completed your baseline and final assessments.</p>
           <a href="/dashboard/growth" className="btn-primary inline-block">View Growth Index</a>
@@ -126,7 +125,6 @@ export default function Assessment() {
     <div className="min-h-screen bg-gray-50"><NavBar />
       <div className="max-w-xl mx-auto px-4 py-12 text-center">
         <div className="card">
-          <div className="text-4xl mb-4">🔒</div>
           <h2 className="text-xl font-bold mb-2">Final Assessment Not Yet Open</h2>
           <p className="text-gray-500">The facilitators will open this at the right time.</p>
         </div>
@@ -163,10 +161,10 @@ export default function Assessment() {
               <span>Needs development</span>
               <span>Highly effective</span>
             </div>
-            <div className="grid grid-cols-10 gap-1.5 mb-6">
+            <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5 mb-6">
               {Array.from({ length: 10 }, (_, i) => i + 1).map(n => (
                 <button key={n} onClick={() => rate(n)}
-                  className={`h-12 rounded-lg font-bold text-sm transition-all ${ratings[currentKey] === n ? 'bg-[#0F52BA] text-white scale-105 shadow' : 'bg-gray-100 hover:bg-blue-100 text-gray-700'}`}>
+                  className={`h-10 sm:h-12 rounded-lg font-bold text-sm transition-all ${ratings[currentKey] === n ? 'bg-[#0F52BA] text-white scale-105 shadow' : 'bg-gray-100 hover:bg-blue-100 text-gray-700'}`}>
                   {n}
                 </button>
               ))}

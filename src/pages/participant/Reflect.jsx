@@ -81,11 +81,10 @@ export default function Reflect() {
       <NavBar />
       <div className="max-w-2xl mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Session Reflections</h1>
-        <p className="text-gray-500 text-sm mb-6">Deepen your learning by reflecting on each session.</p>
+        <p className="text-gray-500 text-sm mb-6">Record your reflection after each session.</p>
 
         {sessions.length === 0 ? (
           <div className="card text-center text-gray-500">
-            <p className="text-4xl mb-3">📖</p>
             <p>No sessions are open for reflection yet. Check back after the first session.</p>
           </div>
         ) : (

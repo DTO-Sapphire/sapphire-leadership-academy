@@ -110,7 +110,7 @@ export default function FacilitatorAttend() {
                       disabled={saving === key}
                       onClick={() => toggleAttendance(p.id, selectedSession, present)}
                       className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${present ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}>
-                      {present ? '✓ Present' : '○ Absent'}
+                      {present ? 'Present' : 'Absent'}
                     </button>
                   </div>
                 )

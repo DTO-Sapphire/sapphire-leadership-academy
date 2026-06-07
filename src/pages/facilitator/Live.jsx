@@ -88,7 +88,7 @@ export default function FacilitatorLive() {
 
           {/* Present */}
           <div className="bg-white/10 rounded-2xl p-4">
-            <h2 className="font-semibold text-green-300 mb-3">✓ Present ({present.length})</h2>
+            <h2 className="font-semibold text-green-300 mb-3">Present ({present.length})</h2>
             <div className="space-y-1.5 max-h-96 overflow-y-auto">
               {present.map(p => (
                 <div key={p.id} className="flex items-center gap-2 py-1">
@@ -102,7 +102,7 @@ export default function FacilitatorLive() {
 
           {/* Absent */}
           <div className="bg-white/10 rounded-2xl p-4">
-            <h2 className="font-semibold text-red-300 mb-3">○ Not yet checked in ({absent.length})</h2>
+            <h2 className="font-semibold text-red-300 mb-3">Not checked in ({absent.length})</h2>
             <div className="space-y-1.5 max-h-96 overflow-y-auto">
               {absent.map(p => (
                 <div key={p.id} className="flex items-center gap-2 py-1">

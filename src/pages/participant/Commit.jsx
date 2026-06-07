@@ -14,7 +14,7 @@ const AREAS = [
 export default function Commit() {
   const { participant } = useAuth()
   const [commitments, setCommitments] = useState([])
-  const [form, setForm] = useState({ commitment_area: '', description: '' })
+  const [form, setForm] = useState({ area: '', commitment: '' })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
@@ -32,7 +32,7 @@ export default function Commit() {
 
   async function add(e) {
     e.preventDefault()
-    if (!form.commitment_area) { toast.error('Select a commitment area'); return }
+    if (!form.area) { toast.error('Select a commitment area'); return }
     setSaving(true)
     try {
       const { error } = await supabase.from('commitments').insert({
@@ -40,7 +40,7 @@ export default function Commit() {
       })
       if (error) throw error
       toast.success('Commitment added!')
-      setForm({ commitment_area: '', description: '' })
+      setForm({ area: '', commitment: '' })
       await load()
     } catch (err) {
       toast.error(err.message)
@@ -69,16 +69,16 @@ export default function Commit() {
           <form onSubmit={add} className="space-y-3">
             <div>
               <label className="label">Commitment Area *</label>
-              <select className="input" value={form.commitment_area}
-                onChange={e => setForm(f => ({ ...f, commitment_area: e.target.value }))}>
+              <select className="input" value={form.area}
+                onChange={e => setForm(f => ({ ...f, area: e.target.value }))}>
                 <option value="">Select area...</option>
                 {AREAS.map(a => <option key={a} value={a}>{a}</option>)}
               </select>
             </div>
             <div>
               <label className="label">Description (optional)</label>
-              <textarea className="input" rows={3} value={form.description}
-                onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+              <textarea className="input" rows={3} value={form.commitment}
+                onChange={e => setForm(f => ({ ...f, commitment: e.target.value }))}
                 placeholder="Specifically, I will..." />
             </div>
             <button type="submit" disabled={saving} className="btn-primary w-full">
@@ -90,15 +90,14 @@ export default function Commit() {
         <div className="space-y-3">
           {commitments.length === 0 ? (
             <div className="card text-center text-gray-500">
-              <p className="text-3xl mb-2">🎯</p>
               <p>No commitments yet. Add your first leadership commitment above.</p>
             </div>
           ) : commitments.map(c => (
             <div key={c.id} className="card flex items-start gap-3">
               <div className="w-2 h-2 rounded-full bg-[#0F52BA] mt-2 shrink-0" />
               <div className="flex-1">
-                <p className="font-semibold text-gray-900 text-sm">{c.commitment_area}</p>
-                {c.description && <p className="text-gray-600 text-sm mt-1">{c.description}</p>}
+                <p className="font-semibold text-gray-900 text-sm">{c.area}</p>
+                {c.commitment && <p className="text-gray-600 text-sm mt-1">{c.commitment}</p>}
                 <p className="text-xs text-gray-400 mt-1">
                   {new Date(c.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                 </p>

@@ -34,7 +34,9 @@ export default function Growth() {
   if (!baseline) return (
     <div className="min-h-screen bg-gray-50"><NavBar />
       <div className="max-w-xl mx-auto px-4 py-12 text-center">
-        <div className="card"><p className="text-4xl mb-3">📊</p><p className="text-gray-600">Complete your baseline assessment first to see your growth.</p></div>
+        <div className="card">
+          <p className="text-gray-600">Complete your baseline assessment first to see your growth index.</p>
+        </div>
       </div>
     </div>
   )
@@ -42,29 +44,33 @@ export default function Growth() {
   if (!final) return (
     <div className="min-h-screen bg-gray-50"><NavBar />
       <div className="max-w-xl mx-auto px-4 py-12 text-center">
-        <div className="card"><p className="text-4xl mb-3">⏳</p><p className="text-gray-600">Complete your final assessment to see your growth index.</p></div>
+        <div className="card">
+          <p className="text-gray-600">Your growth index will be available once you complete the final assessment.</p>
+        </div>
       </div>
     </div>
   )
 
+  const scores = k => ({ b: baseline.scores?.[k] ?? 0, f: final.scores?.[k] ?? 0 })
+
   const radarData = COMPETENCIES.map(c => ({
     subject: c.label,
-    Baseline: baseline[c.key],
-    Final: final[c.key],
+    Baseline: scores(c.key).b,
+    Final: scores(c.key).f,
     fullMark: 10,
   }))
 
-  const baselineAvg = COMPETENCIES.reduce((sum, c) => sum + baseline[c.key], 0) / 8
-  const finalAvg = COMPETENCIES.reduce((sum, c) => sum + final[c.key], 0) / 8
-  const growthPct = ((finalAvg - baselineAvg) / baselineAvg * 100).toFixed(1)
+  const baselineAvg = COMPETENCIES.reduce((sum, c) => sum + scores(c.key).b, 0) / 8
+  const finalAvg   = COMPETENCIES.reduce((sum, c) => sum + scores(c.key).f, 0) / 8
+  const growthPct  = baselineAvg > 0 ? ((finalAvg - baselineAvg) / baselineAvg * 100).toFixed(1) : '0.0'
   const isPositive = finalAvg >= baselineAvg
 
   return (
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Leadership Growth Index</h1>
-        <p className="text-gray-500 text-sm mb-6">Your self-assessed leadership growth across the programme.</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-1">Leadership Growth Index</h1>
+        <p className="text-gray-500 text-sm mb-6">Self-assessed leadership development across the programme.</p>
 
         <div className="grid grid-cols-3 gap-4 mb-6">
           <div className="card text-center">
@@ -104,12 +110,11 @@ export default function Growth() {
           <h2 className="font-semibold text-gray-900 mb-4">Competency Breakdown</h2>
           <div className="space-y-3">
             {COMPETENCIES.map(c => {
-              const b = baseline[c.key]
-              const f = final[c.key]
+              const { b, f } = scores(c.key)
               const diff = f - b
               return (
                 <div key={c.key} className="flex items-center gap-3">
-                  <div className="w-28 text-xs text-gray-600 shrink-0">{c.label}</div>
+                  <div className="w-24 text-xs text-gray-600 shrink-0">{c.label}</div>
                   <div className="flex-1 relative h-5 bg-gray-100 rounded-full overflow-hidden">
                     <div className="absolute inset-y-0 left-0 bg-gray-300 rounded-full" style={{ width: `${b * 10}%` }} />
                     <div className="absolute inset-y-0 left-0 bg-[#0F52BA] rounded-full opacity-70" style={{ width: `${f * 10}%` }} />

@@ -27,7 +27,6 @@ export default function Journal() {
 
         {entries.length === 0 ? (
           <div className="card text-center text-gray-500">
-            <p className="text-4xl mb-3">📝</p>
             <p>No reflections yet. Complete your first session reflection to start your journal.</p>
           </div>
         ) : (

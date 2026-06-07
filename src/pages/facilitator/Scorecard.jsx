@@ -6,9 +6,9 @@ import toast from 'react-hot-toast'
 const FIELDS = [
   { key: 'growth_score',      label: 'Growth',            max: 30, desc: 'Pre/post assessment improvement' },
   { key: 'attendance_score',  label: 'Attendance',        max: 20, desc: 'Sessions attended' },
-  { key: 'reflections_score', label: 'Reflections',       max: 25, desc: 'Quality of session reflections' },
-  { key: 'assignments_score', label: 'Assignments',       max: 15, desc: 'Weekly assignment completion' },
-  { key: 'facilitator_rating',label: 'Facilitator Rating',max: 10, desc: 'EXCO subjective rating' },
+  { key: 'reflection_score',  label: 'Reflections',       max: 25, desc: 'Quality of session reflections' },
+  { key: 'assignment_score',  label: 'Assignments',       max: 15, desc: 'Weekly assignment completion' },
+  { key: 'facilitator_score', label: 'Facilitator Rating',max: 10, desc: 'EXCO subjective rating' },
 ]
 
 export default function FacilitatorScorecard() {
@@ -38,9 +38,9 @@ export default function FacilitatorScorecard() {
     return edits[participantId] || {
       growth_score: s.growth_score ?? 0,
       attendance_score: s.attendance_score ?? 0,
-      reflections_score: s.reflections_score ?? 0,
-      assignments_score: s.assignments_score ?? 0,
-      facilitator_rating: s.facilitator_rating ?? 0,
+      reflection_score: s.reflection_score ?? 0,
+      assignment_score: s.assignment_score ?? 0,
+      facilitator_score: s.facilitator_score ?? 0,
     }
   }
 
@@ -98,9 +98,9 @@ export default function FacilitatorScorecard() {
                     <td className="py-2 font-medium">{p.name}<div className="text-xs text-gray-400">{p.department}</div></td>
                     <td className="py-2 text-right text-gray-600">{s.growth_score ?? '—'}</td>
                     <td className="py-2 text-right text-gray-600">{s.attendance_score ?? '—'}</td>
-                    <td className="py-2 text-right text-gray-600">{s.reflections_score ?? '—'}</td>
-                    <td className="py-2 text-right text-gray-600">{s.assignments_score ?? '—'}</td>
-                    <td className="py-2 text-right text-gray-600">{s.facilitator_rating ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.reflection_score ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.assignment_score ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.facilitator_score ?? '—'}</td>
                     <td className="py-2 text-right font-bold text-gray-900">{s.total_score ? s.total_score.toFixed(1) : '—'}</td>
                     <td className="py-2 text-right">
                       {s.total_score ? (
