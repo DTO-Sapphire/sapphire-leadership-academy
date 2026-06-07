@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
-import { BookOpen, FileText, TrendingUp, Copy, Check } from 'lucide-react'
+import { BookOpen, FileText, TrendingUp, Copy, Check, KeyRound, Users } from 'lucide-react'
 
 const APP_URL = import.meta.env.VITE_APP_URL || window.location.origin
 const REGISTER_URL = `${APP_URL}/register`
@@ -59,12 +59,23 @@ export default function Landing() {
   return (
     <div className="min-h-screen flex flex-col" style={{ fontFamily: "'General Sans', Inter, system-ui, sans-serif" }}>
 
-      {/* Top bar */}
-      <div style={{ background: '#0A3480' }} className="flex justify-end px-6 py-2.5">
-        <Link to="/facilitator/login" className="text-[#98DFEA] text-xs hover:text-white transition-colors tracking-wide">
-          Facilitator login →
+      {/* Sticky navbar */}
+      <nav style={{ background: '#0A3480' }} className="sticky top-0 z-50 flex items-center justify-between px-5 py-3 shadow-lg">
+        <div className="flex items-center gap-2.5">
+          <svg width="28" height="26" viewBox="0 0 52 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="4,2 38,2 34,20 0,20" fill="white" opacity="0.9"/>
+            <polygon points="14,24 44,24 40,44 10,44" fill="#00C2CB"/>
+            <circle cx="47" cy="44" r="5.5" fill="#FFAF46"/>
+          </svg>
+          <span className="text-white font-bold text-sm tracking-tight hidden sm:block">Sapphire Leadership Academy</span>
+          <span className="text-white font-bold text-sm tracking-tight sm:hidden">SLA</span>
+        </div>
+        <Link to="/facilitator/login"
+          className="flex items-center gap-2 bg-[#FFAF46] hover:bg-[#f09c2e] text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors shadow-md">
+          <KeyRound size={15} />
+          Facilitator Portal
         </Link>
-      </div>
+      </nav>
 
       {/* Hero */}
       <section
@@ -270,19 +281,58 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{ background: '#0A3480' }} className="px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <svg width="22" height="20" viewBox="0 0 52 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="4,2 38,2 34,20 0,20" fill="white" opacity="0.6"/>
-            <polygon points="14,24 44,24 40,44 10,44" fill="#00C2CB" opacity="0.6"/>
-            <circle cx="47" cy="44" r="5.5" fill="#FFAF46"/>
-          </svg>
-          <span className="text-white/40 text-xs">Sapphire Virtual Networks Limited · Confidential</span>
+      {/* Portal split */}
+      <section className="bg-gray-100 px-4 py-12">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest text-center mb-8">Choose your portal</p>
+          <div className="grid sm:grid-cols-2 gap-4">
+
+            {/* Participant card */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 flex flex-col">
+              <div className="w-12 h-12 rounded-xl bg-[#0F52BA]/10 flex items-center justify-center mb-5">
+                <Users size={22} className="text-[#0F52BA]" />
+              </div>
+              <h3 className="font-bold text-gray-900 text-lg mb-1">I am a participant</h3>
+              <p className="text-gray-500 text-sm leading-relaxed mb-6">
+                Register for the June 2026 cohort or log in to access your dashboard, sessions, reflections, and assessments.
+              </p>
+              <div className="flex flex-col gap-2 mt-auto">
+                <Link to="/register"
+                  className="bg-[#0F52BA] hover:bg-[#0a3a9e] text-white font-bold py-3 rounded-xl text-sm text-center transition-colors">
+                  Register Now
+                </Link>
+                <Link to="/login"
+                  className="border border-gray-200 hover:border-gray-300 text-gray-600 font-semibold py-3 rounded-xl text-sm text-center transition-colors">
+                  Log In
+                </Link>
+              </div>
+            </div>
+
+            {/* Facilitator card */}
+            <div style={{ background: '#0A3480' }} className="rounded-2xl p-8 flex flex-col">
+              <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-5">
+                <KeyRound size={22} className="text-[#FFAF46]" />
+              </div>
+              <h3 className="font-bold text-white text-lg mb-1">I am a facilitator</h3>
+              <p className="text-[#98DFEA] text-sm leading-relaxed mb-6">
+                Access the facilitator portal to manage sessions, mark attendance, submit scorecards, log mentorship, and export cohort data.
+              </p>
+              <div className="mt-auto">
+                <Link to="/facilitator/login"
+                  className="flex items-center justify-center gap-2 bg-[#FFAF46] hover:bg-[#f09c2e] text-white font-bold py-3 rounded-xl text-sm transition-colors shadow-md">
+                  <KeyRound size={15} />
+                  Enter Facilitator Portal
+                </Link>
+              </div>
+            </div>
+
+          </div>
         </div>
-        <Link to="/facilitator/login" className="text-[#98DFEA] text-xs hover:text-white transition-colors">
-          Facilitator login →
-        </Link>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: '#0A3480' }} className="px-6 py-5 flex items-center justify-center">
+        <span className="text-white/40 text-xs">Sapphire Virtual Networks Limited · Confidential</span>
       </footer>
 
     </div>
