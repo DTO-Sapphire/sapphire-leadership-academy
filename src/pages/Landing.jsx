@@ -1,8 +1,27 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
-import { BookOpen, FileText, TrendingUp } from 'lucide-react'
+import { BookOpen, FileText, TrendingUp, Copy, Check } from 'lucide-react'
 
 const APP_URL = import.meta.env.VITE_APP_URL || window.location.origin
+const REGISTER_URL = `${APP_URL}/register`
+
+function CopyLinkButton({ className = '' }) {
+  const [copied, setCopied] = useState(false)
+  function copy() {
+    navigator.clipboard.writeText(REGISTER_URL).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    })
+  }
+  return (
+    <button onClick={copy}
+      className={`flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors border border-white/30 text-sm ${className}`}>
+      {copied ? <Check size={15} /> : <Copy size={15} />}
+      {copied ? 'Link copied!' : 'Copy registration link'}
+    </button>
+  )
+}
 
 const PILLARS = [
   {
@@ -85,6 +104,9 @@ export default function Landing() {
               className="bg-white/10 hover:bg-white/20 text-white font-bold px-8 py-3.5 rounded-xl transition-colors border-2 border-white/30 text-base">
               Log In
             </Link>
+          </div>
+          <div className="flex justify-center mt-4">
+            <CopyLinkButton />
           </div>
         </div>
       </section>
@@ -238,9 +260,12 @@ export default function Landing() {
               </Link>
             </div>
           </div>
-          <div className="bg-white rounded-2xl p-4 shadow-xl shrink-0">
-            <QRCodeSVG value={`${APP_URL}/register`} size={148} fgColor="#0F52BA" />
-            <p className="text-[#0F52BA] text-xs text-center mt-3 font-medium">Scan to register</p>
+          <div className="flex flex-col items-center gap-3 shrink-0">
+            <div className="bg-white rounded-2xl p-4 shadow-xl">
+              <QRCodeSVG value={REGISTER_URL} size={148} fgColor="#0F52BA" />
+              <p className="text-[#0F52BA] text-xs text-center mt-3 font-medium">Scan to register</p>
+            </div>
+            <CopyLinkButton className="w-full justify-center" />
           </div>
         </div>
       </section>

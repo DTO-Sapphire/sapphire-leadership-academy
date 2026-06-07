@@ -6,14 +6,14 @@ import NavBar from '../../components/NavBar'
 import toast from 'react-hot-toast'
 
 const COMPETENCIES = [
-  { key: 'communication',          label: 'Communication',         description: 'How clearly and effectively you share information and listen to others' },
-  { key: 'delegation',             label: 'Delegation',            description: 'How well you assign tasks and trust your team to deliver' },
-  { key: 'accountability',         label: 'Accountability',        description: 'How consistently you take ownership of outcomes and commitments' },
-  { key: 'planning',               label: 'Planning',              description: 'How effectively you set priorities and organise work toward goals' },
-  { key: 'emotional_intelligence', label: 'Emotional Intelligence',description: 'How well you understand and manage your emotions and those of others' },
-  { key: 'coaching_mentoring',     label: 'Coaching & Mentoring',  description: 'How actively you develop the people around you' },
-  { key: 'decision_making',        label: 'Decision Making',       description: 'How confidently and effectively you make decisions under pressure' },
-  { key: 'conflict_resolution',    label: 'Conflict Resolution',   description: 'How constructively you handle disagreements and tensions' },
+  { key: 'communication',          label: 'Communication',         description: 'How clearly and effectively do you share information and listen to others?' },
+  { key: 'delegation',             label: 'Delegation',            description: 'How well do you assign tasks and trust your team to deliver?' },
+  { key: 'accountability',         label: 'Accountability',        description: 'How consistently do you take ownership of outcomes and commitments?' },
+  { key: 'planning',               label: 'Planning',              description: 'How effectively do you set priorities and organise work toward goals?' },
+  { key: 'emotional_intelligence', label: 'Emotional Intelligence',description: 'How well do you understand and manage your emotions and those of others?' },
+  { key: 'coaching_mentoring',     label: 'Coaching & Mentoring',  description: 'How actively do you develop the people around you?' },
+  { key: 'decision_making',        label: 'Decision Making',       description: 'How confidently and effectively do you make decisions under pressure?' },
+  { key: 'conflict_resolution',    label: 'Conflict Resolution',   description: 'How constructively do you handle disagreements and tensions?' },
 ]
 
 function shuffle(arr) {

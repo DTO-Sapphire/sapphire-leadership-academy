@@ -3,7 +3,24 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
 import NavBar from '../../components/NavBar'
-import { CheckCircle, BookOpen, Star, TrendingUp, AlertCircle } from 'lucide-react'
+import { CheckCircle, BookOpen, Star, TrendingUp, AlertCircle, Copy, Check } from 'lucide-react'
+
+function ShareLink() {
+  const [copied, setCopied] = useState(false)
+  function copy() {
+    navigator.clipboard.writeText(`${window.location.origin}/register`).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    })
+  }
+  return (
+    <button onClick={copy}
+      className="flex items-center gap-1.5 text-xs text-[#0F52BA] hover:text-[#0a3a9e] font-semibold transition-colors">
+      {copied ? <Check size={13} /> : <Copy size={13} />}
+      {copied ? 'Link copied!' : 'Share registration link'}
+    </button>
+  )
+}
 
 export default function Dashboard() {
   const { participant } = useAuth()
@@ -63,9 +80,14 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Welcome, {participant?.name}</h1>
-          <p className="text-gray-500 text-sm mt-1">{participant?.role} · {participant?.department}</p>
+        <div className="mb-6 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Welcome, {participant?.name}</h1>
+            <p className="text-gray-500 text-sm mt-1">{participant?.role} · {participant?.department}</p>
+          </div>
+          <div className="pt-1 shrink-0">
+            <ShareLink />
+          </div>
         </div>
 
         {/* Banners */}

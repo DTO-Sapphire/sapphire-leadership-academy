@@ -3,7 +3,32 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
 import NavBar from '../../components/NavBar'
-import { Users, CheckCircle, BookOpen, Star, TrendingUp, Award } from 'lucide-react'
+import { Users, CheckCircle, BookOpen, Star, TrendingUp, Award, Copy, Check } from 'lucide-react'
+
+const REGISTER_URL = `${window.location.origin}/register`
+
+function CopyLinkBanner() {
+  const [copied, setCopied] = useState(false)
+  function copy() {
+    navigator.clipboard.writeText(REGISTER_URL).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2500)
+    })
+  }
+  return (
+    <div className="card flex flex-col sm:flex-row sm:items-center gap-3 mb-8 bg-[#0F52BA]/5 border border-[#0F52BA]/15">
+      <div className="flex-1 min-w-0">
+        <p className="text-xs font-bold text-[#0F52BA] uppercase tracking-wider mb-1">Registration link</p>
+        <p className="text-sm text-gray-500 truncate">{REGISTER_URL}</p>
+      </div>
+      <button onClick={copy}
+        className="flex items-center gap-2 bg-[#0F52BA] hover:bg-[#0a3a9e] text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors shrink-0">
+        {copied ? <Check size={14} /> : <Copy size={14} />}
+        {copied ? 'Copied!' : 'Copy link'}
+      </button>
+    </div>
+  )
+}
 
 export default function FacilitatorDashboard() {
   const { facilitator } = useAuth()
@@ -53,6 +78,8 @@ export default function FacilitatorDashboard() {
           <h1 className="text-2xl font-bold text-gray-900">Facilitator Dashboard</h1>
           <p className="text-gray-500 text-sm mt-1">Welcome, {facilitator?.name} · {facilitator?.title}</p>
         </div>
+
+        <CopyLinkBanner />
 
         {/* Stats */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">

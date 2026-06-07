@@ -31,6 +31,10 @@ export default function Register() {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    if (!form.email.toLowerCase().endsWith('@sapphirevirtual.com')) {
+      toast.error('Registration is for Sapphire Virtual Networks employees only. Please use your @sapphirevirtual.com email address.')
+      return
+    }
     setLoading(true)
     try {
       const { error } = await supabase.auth.signInWithOtp({ email: form.email, options: { shouldCreateUser: true } })
