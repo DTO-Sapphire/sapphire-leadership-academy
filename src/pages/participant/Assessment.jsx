@@ -94,7 +94,7 @@ export default function Assessment() {
     if (Object.keys(ratings).length < 8) { toast.error('Please rate all competencies'); return }
     setSubmitting(true)
     try {
-      const payload = { participant_id: participant.id, type, question_order: JSON.stringify(order), ...ratings }
+      const payload = { participant_id: participant.id, type, scores: ratings }
       const { error } = await supabase.from('assessments').insert(payload)
       if (error) throw error
       localStorage.removeItem(`assessment_draft_${participant.id}_${type}`)
