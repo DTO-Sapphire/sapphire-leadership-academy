@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
 import NavBar from '../../components/NavBar'
-import { CheckCircle, Clock, BookOpen, Star, TrendingUp, AlertCircle } from 'lucide-react'
+import { CheckCircle, BookOpen, Star, TrendingUp, AlertCircle } from 'lucide-react'
 
 export default function Dashboard() {
   const { participant } = useAuth()
@@ -116,16 +116,15 @@ export default function Dashboard() {
         {/* Status cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {[
-            { icon: <Star size={20} className="text-amber-500" />, label: 'Baseline Assessment', value: baseline ? 'Complete' : 'Pending', badge: baseline ? 'badge-green' : 'badge-yellow', link: '/dashboard/assessment' },
-            { icon: <CheckCircle size={20} className="text-green-500" />, label: 'Sessions Attended', value: `${attended} of ${totalSessions}`, link: null },
-            { icon: <BookOpen size={20} className="text-blue-500" />, label: 'Reflections', value: `${reflectedIds.size} submitted`, link: '/dashboard/reflect' },
-            { icon: <TrendingUp size={20} className="text-[#0F52BA]" />, label: 'My Scorecard', value: `${score.toFixed(0)} / 100`, badge: score >= 75 ? 'badge-green' : score >= 50 ? 'badge-yellow' : 'badge-red', link: null },
+            { icon: <Star size={20} className="text-amber-500" />, label: 'Baseline Assessment', value: baseline ? 'Complete' : 'Pending', color: baseline ? 'text-green-700' : 'text-amber-700' },
+            { icon: <CheckCircle size={20} className="text-green-500" />, label: 'Sessions Attended', value: `${attended} / ${totalSessions}`, color: 'text-gray-900' },
+            { icon: <BookOpen size={20} className="text-blue-500" />, label: 'Reflections', value: `${reflectedIds.size} submitted`, color: 'text-gray-900' },
+            { icon: <TrendingUp size={20} className="text-[#0F52BA]" />, label: 'My Scorecard', value: `${score.toFixed(0)} / 100`, color: score >= 75 ? 'text-green-700' : score >= 50 ? 'text-amber-700' : 'text-red-600' },
           ].map((card, i) => (
             <div key={i} className="card flex flex-col gap-2">
               {card.icon}
               <p className="text-xs text-gray-500">{card.label}</p>
-              <p className="font-bold text-gray-900">{card.value}</p>
-              {card.badge && <span className={card.badge}>{card.value}</span>}
+              <p className={`font-bold text-lg ${card.color}`}>{card.value}</p>
             </div>
           ))}
         </div>

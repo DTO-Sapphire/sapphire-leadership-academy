@@ -112,7 +112,6 @@ export default function FacilitatorDashboard() {
               <tbody>
                 {(sessions || []).map(s => {
                   const date = new Date(s.session_date + 'T00:00:00')
-                  const attCount = stats.attPairs
                   return (
                     <tr key={s.id} className="border-b border-gray-100 hover:bg-gray-50">
                       <td className="py-2 font-medium">{s.session_number}</td>

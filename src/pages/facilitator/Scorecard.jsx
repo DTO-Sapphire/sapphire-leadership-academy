@@ -92,7 +92,6 @@ export default function FacilitatorScorecard() {
             <tbody>
               {participants.map(p => {
                 const s = scorecards[p.id] || {}
-                const total = (s.total_score || 0)
                 return (
                   <tr key={p.id} className={`border-b border-gray-100 hover:bg-gray-50 ${selected === p.id ? 'bg-blue-50' : ''}`}>
                     <td className="py-2 font-medium">{p.name}<div className="text-xs text-gray-400">{p.department}</div></td>

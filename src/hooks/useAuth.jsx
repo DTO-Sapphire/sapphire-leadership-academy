@@ -33,6 +33,7 @@ export function AuthProvider({ children }) {
     setParticipant(p)
     setFacilitator(f)
     setLoading(false)
+    return { participant: p, facilitator: f }
   }
 
   async function signOut() {

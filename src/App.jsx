@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import Landing from './pages/Landing'
+import NotFound from './pages/NotFound'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import ParticipantRoute from './components/ParticipantRoute'
@@ -51,6 +52,8 @@ export default function App() {
         <Route path="/facilitator/awards" element={<FacilitatorAwards />} />
         <Route path="/facilitator/export" element={<FacilitatorExport />} />
       </Route>
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }

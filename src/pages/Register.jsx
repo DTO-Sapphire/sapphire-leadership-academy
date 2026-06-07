@@ -42,14 +42,17 @@ export default function Register() {
       const user = data.session?.user
       if (!user) throw new Error('Login failed')
 
-      const { data: existing } = await supabase.from('participants').select('id').eq('email', form.email).single()
-      if (existing) {
-        await supabase.from('participants').update({ user_id: user.id }).eq('id', existing.id)
-      } else {
-        const { error: insertErr } = await supabase.from('participants').insert({
-          ...form, user_id: user.id
-        })
-        if (insertErr) throw insertErr
+      const { data: existing } = await supabase.from('participants').select('id').eq('user_id', user.id).single()
+      if (!existing) {
+        const { error: insertErr } = await supabase.from('participants').insert({ ...form, user_id: user.id })
+        if (insertErr) {
+          if (insertErr.code === '23505') {
+            toast.error('This email is already registered. Please log in instead.')
+            navigate('/login')
+            return
+          }
+          throw insertErr
+        }
       }
 
       await loadProfile(user)

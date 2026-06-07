@@ -33,8 +33,9 @@ export default function Login() {
     try {
       const { data, error } = await supabase.auth.verifyOtp({ email, token: otp, type: 'email' })
       if (error) throw error
-      await loadProfile(data.session.user)
-      navigate('/dashboard')
+      const { facilitator: fac, participant: par } = await loadProfile(data.session.user)
+      if (fac && !par) navigate('/facilitator')
+      else navigate('/dashboard')
     } catch (err) {
       toast.error(err.message)
     } finally {

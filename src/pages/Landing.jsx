@@ -19,9 +19,8 @@ export default function Landing() {
         <div className="mb-8 flex flex-col items-center">
           <div className="flex items-center gap-4 mb-4">
             <svg width="64" height="60" viewBox="0 0 52 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <polygon points="4,2 38,2 34,20 0,20" fill="#0F52BA" opacity="0.9"/>
-              <polygon points="4,2 38,2 34,20 0,20" fill="white" opacity="0.25"/>
-              <polygon points="14,24 44,24 40,44 10,44" fill="#98DFEA" opacity="0.9"/>
+              <polygon points="4,2 38,2 34,20 0,20" fill="white" opacity="0.95"/>
+              <polygon points="14,24 44,24 40,44 10,44" fill="#00C2CB"/>
               <circle cx="47" cy="44" r="5.5" fill="#FFAF46"/>
             </svg>
           </div>
