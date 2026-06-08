@@ -11,7 +11,7 @@ export default function NavBar({ facilitatorMode = false }) {
 
   const handleSignOut = async () => {
     await signOut()
-    navigate(facilitatorMode ? '/facilitator/login' : '/login')
+    navigate(facilitatorMode ? '/facilitator/login' : '/')
   }
 
   const participantLinks = [
