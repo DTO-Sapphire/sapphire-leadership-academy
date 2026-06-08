@@ -17,7 +17,7 @@ export default function FacilitatorExport() {
         supabase.from('assessments').select('participants(name), type, scores, submitted_at'),
         supabase.from('reflections').select('participants(name), sessions(session_number, title), what_i_learned, leadership_insight, action_before_next, expected_result, journal_prompt_response, submitted_at'),
         supabase.from('assignment_submissions').select('participants(name), weekly_assignments(week_number, title), content, submitted_at'),
-        supabase.from('scorecard').select('participants(name), growth_score, attendance_score, reflection_score, assignment_score, facilitator_score, total_score, graduated, updated_at'),
+        supabase.from('scorecard').select('participants(name), attendance_score, participation_score, assignment_score, mentorship_score, peer_feedback_score, self_assessment_score, manager_score, total_score, graduated, updated_at'),
         supabase.from('mentorship_sessions').select('participants(name), facilitators(name), session_date, topics, notes, created_at'),
         supabase.from('awards').select('category, participants(name), notes, updated_at'),
       ])
@@ -35,11 +35,13 @@ export default function FacilitatorExport() {
       XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(
         (scorecards.data || []).map(s => ({
           Participant: s.participants?.name,
-          'Growth (30)': s.growth_score,
-          'Attendance (20)': s.attendance_score,
-          'Reflections (25)': s.reflection_score,
-          'Assignments (15)': s.assignment_score,
-          'Facilitator (10)': s.facilitator_score,
+          'Attendance (10)': s.attendance_score,
+          'Participation (15)': s.participation_score,
+          'Assignments (20)': s.assignment_score,
+          'Mentorship (15)': s.mentorship_score,
+          'Peer Feedback (10)': s.peer_feedback_score,
+          'Self-Assessment (10)': s.self_assessment_score,
+          'Manager Assessment (20)': s.manager_score,
           Total: s.total_score,
           Graduated: s.graduated ? 'Yes' : 'No',
           Updated: s.updated_at,

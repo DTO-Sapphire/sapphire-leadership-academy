@@ -4,11 +4,13 @@ import NavBar from '../../components/NavBar'
 import toast from 'react-hot-toast'
 
 const FIELDS = [
-  { key: 'growth_score',      label: 'Growth',            max: 30, desc: 'Pre/post assessment improvement' },
-  { key: 'attendance_score',  label: 'Attendance',        max: 20, desc: 'Sessions attended' },
-  { key: 'reflection_score',  label: 'Reflections',       max: 25, desc: 'Quality of session reflections' },
-  { key: 'assignment_score',  label: 'Assignments',       max: 15, desc: 'Weekly assignment completion' },
-  { key: 'facilitator_score', label: 'Facilitator Rating',max: 10, desc: 'EXCO subjective rating' },
+  { key: 'attendance_score',      label: 'Attendance',         max: 10, desc: 'Sessions attended out of 8' },
+  { key: 'participation_score',   label: 'Participation',      max: 15, desc: 'EXCO rating of engagement and contribution' },
+  { key: 'assignment_score',      label: 'Assignments',        max: 20, desc: 'Weekly assignment completion and quality' },
+  { key: 'mentorship_score',      label: 'Mentorship',         max: 15, desc: 'Mentorship participation and engagement' },
+  { key: 'peer_feedback_score',   label: 'Peer Feedback',      max: 10, desc: '360° rating from cohort peers' },
+  { key: 'self_assessment_score', label: 'Self-Assessment',    max: 10, desc: 'Pre/post assessment growth score' },
+  { key: 'manager_score',         label: 'Manager Assessment', max: 20, desc: 'Direct manager evaluation' },
 ]
 
 export default function FacilitatorScorecard() {
@@ -36,11 +38,13 @@ export default function FacilitatorScorecard() {
   function getEdits(participantId) {
     const s = scorecards[participantId] || {}
     return edits[participantId] || {
-      growth_score: s.growth_score ?? 0,
-      attendance_score: s.attendance_score ?? 0,
-      reflection_score: s.reflection_score ?? 0,
-      assignment_score: s.assignment_score ?? 0,
-      facilitator_score: s.facilitator_score ?? 0,
+      attendance_score:      s.attendance_score      ?? 0,
+      participation_score:   s.participation_score   ?? 0,
+      assignment_score:      s.assignment_score      ?? 0,
+      mentorship_score:      s.mentorship_score      ?? 0,
+      peer_feedback_score:   s.peer_feedback_score   ?? 0,
+      self_assessment_score: s.self_assessment_score ?? 0,
+      manager_score:         s.manager_score         ?? 0,
     }
   }
 
@@ -80,11 +84,13 @@ export default function FacilitatorScorecard() {
           <table className="w-full text-sm">
             <thead><tr className="border-b border-gray-200">
               <th className="text-left py-2 text-gray-500 font-medium">Participant</th>
-              <th className="text-right py-2 text-gray-500 font-medium">Growth</th>
               <th className="text-right py-2 text-gray-500 font-medium">Attend.</th>
-              <th className="text-right py-2 text-gray-500 font-medium">Reflect.</th>
+              <th className="text-right py-2 text-gray-500 font-medium">Partic.</th>
               <th className="text-right py-2 text-gray-500 font-medium">Assign.</th>
-              <th className="text-right py-2 text-gray-500 font-medium">Fac.</th>
+              <th className="text-right py-2 text-gray-500 font-medium">Mentor.</th>
+              <th className="text-right py-2 text-gray-500 font-medium">Peer</th>
+              <th className="text-right py-2 text-gray-500 font-medium">Self</th>
+              <th className="text-right py-2 text-gray-500 font-medium">Mgr.</th>
               <th className="text-right py-2 text-gray-500 font-medium">Total</th>
               <th className="text-right py-2 text-gray-500 font-medium">Status</th>
               <th className="py-2" />
@@ -95,11 +101,13 @@ export default function FacilitatorScorecard() {
                 return (
                   <tr key={p.id} className={`border-b border-gray-100 hover:bg-gray-50 ${selected === p.id ? 'bg-blue-50' : ''}`}>
                     <td className="py-2 font-medium">{p.name}<div className="text-xs text-gray-400">{p.department}</div></td>
-                    <td className="py-2 text-right text-gray-600">{s.growth_score ?? '—'}</td>
-                    <td className="py-2 text-right text-gray-600">{s.attendance_score ?? '—'}</td>
-                    <td className="py-2 text-right text-gray-600">{s.reflection_score ?? '—'}</td>
-                    <td className="py-2 text-right text-gray-600">{s.assignment_score ?? '—'}</td>
-                    <td className="py-2 text-right text-gray-600">{s.facilitator_score ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.attendance_score      ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.participation_score   ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.assignment_score      ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.mentorship_score      ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.peer_feedback_score   ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.self_assessment_score ?? '—'}</td>
+                    <td className="py-2 text-right text-gray-600">{s.manager_score         ?? '—'}</td>
                     <td className="py-2 text-right font-bold text-gray-900">{s.total_score ? s.total_score.toFixed(1) : '—'}</td>
                     <td className="py-2 text-right">
                       {s.total_score ? (
