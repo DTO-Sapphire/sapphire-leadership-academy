@@ -27,7 +27,7 @@ const PILLARS = [
   {
     icon: BookOpen,
     title: 'Facilitated Sessions',
-    body: 'Eight sessions led by Sapphire EXCO, working through John Maxwell\'s 21 Laws of Leadership with structured discussion, peer learning, and practical application.',
+    body: 'Twelve sessions led by Sapphire EXCO, running Tuesday to Thursday at 7:30 AM. One hour of teaching followed by thirty minutes of discussion, working through John Maxwell\'s 21 Laws of Leadership.',
   },
   {
     icon: FileText,
@@ -43,16 +43,16 @@ const PILLARS = [
 
 const STATS = [
   { value: '4',   label: 'Weeks' },
-  { value: '8',   label: 'Sessions' },
-  { value: '21',  label: 'Laws of Leadership' },
+  { value: '12',  label: 'Sessions' },
+  { value: '3',   label: 'Sessions per Week' },
   { value: '100', label: 'Point Scorecard' },
 ]
 
 const LAWS = [
-  { title: 'The Law of the Lid',          note: 'Leadership ability sets the ceiling on what a person can achieve.' },
-  { title: 'The Law of Influence',         note: 'True leadership is measured by influence, not position or title.' },
-  { title: 'The Law of Process',           note: 'Leadership develops daily, not in a single event or moment.' },
-  { title: 'The Law of Solid Ground',      note: 'Trust is the foundation on which all leadership is built.' },
+  { title: 'The Law of the Lid',      note: 'Leadership ability sets the ceiling on what a person can achieve.' },
+  { title: 'The Law of Navigation',   note: 'Anyone can steer the ship, but it takes a leader to chart the course.' },
+  { title: 'The Law of Priorities',   note: 'Leaders understand that activity is not necessarily accomplishment.' },
+  { title: 'The Law of Solid Ground', note: 'Trust is the foundation on which all leadership is built.' },
 ]
 
 export default function Landing() {
@@ -91,7 +91,7 @@ export default function Landing() {
           </div>
 
           <div className="inline-block bg-white/10 border border-white/20 rounded-full px-4 py-1 text-xs text-[#98DFEA] tracking-widest uppercase mb-6">
-            June 2026 Cohort
+            Inaugural Cohort · Starts 9 June 2026
           </div>
 
           <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-tight mb-5">
@@ -127,10 +127,10 @@ export default function Landing() {
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xs font-bold text-[#00C2CB] uppercase tracking-widest mb-4">About the programme</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-[#0A3480] mb-6 leading-snug">
-            Four weeks. Eight sessions. One cohort of leaders learning together.
+            Four weeks. Twelve sessions. Three mornings a week.
           </h2>
           <p className="text-gray-600 text-base leading-relaxed">
-            The Sapphire Leadership Academy brings together high-potential employees from across the organisation to develop as leaders in a structured, measurable way. Participants attend eight facilitated sessions, complete weekly assignments, write reflections after each session, and receive a 1-on-1 mentorship session. At the start and end of the programme, each person completes a self-assessment across eight leadership competencies. The difference between the two scores tells you exactly how much you have grown.
+            The Sapphire Leadership Academy brings together high-potential employees from across the organisation for twelve facilitated sessions across four weeks, running Tuesday, Wednesday, and Thursday from 7:30 AM to 9:00 AM. Participants complete weekly assignments, write reflections after each session, and receive a one-on-one mentorship session with an assigned EXCO mentor. A baseline and final self-assessment across eight leadership competencies measures how much each person has grown by the end of the programme.
           </p>
         </div>
       </section>
@@ -193,7 +193,7 @@ export default function Landing() {
               </div>
             ))}
             <div className="bg-[#0F52BA]/5 border border-[#0F52BA]/10 rounded-xl p-4 text-center">
-              <p className="text-sm text-gray-500">17 more laws across 8 sessions</p>
+              <p className="text-sm text-gray-500">17 more laws across 12 sessions</p>
             </div>
           </div>
         </div>
