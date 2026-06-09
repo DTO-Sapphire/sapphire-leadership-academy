@@ -47,13 +47,8 @@ export default function NavBar({ facilitatorMode = false }) {
         <div className="flex items-center justify-between h-14">
           {/* Logo mark */}
           <div className="flex items-center gap-5">
-            <Link to={facilitatorMode ? '/facilitator' : '/dashboard'} className="flex items-center gap-2 shrink-0">
-              <svg width="28" height="26" viewBox="0 0 52 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="4,2 38,2 34,20 0,20" fill="white" opacity="0.9"/>
-                <polygon points="14,24 44,24 40,44 10,44" fill="#98DFEA"/>
-                <circle cx="47" cy="44" r="5.5" fill="#FFAF46"/>
-              </svg>
-              <span className="font-bold text-sm tracking-wide hidden sm:block">SLA</span>
+            <Link to={facilitatorMode ? '/facilitator' : '/dashboard'} className="flex items-center shrink-0">
+              <img src="/logo.png" alt="Sapphire" className="h-7 w-auto" />
             </Link>
 
             {/* Nav links */}
