@@ -6,14 +6,16 @@ import NavBar from '../../components/NavBar'
 import toast from 'react-hot-toast'
 
 const COMPETENCIES = [
-  { key: 'communication',          label: 'Communication',          description: 'How clearly and effectively do you share information and listen to others?' },
-  { key: 'delegation',             label: 'Delegation',             description: 'How well do you assign tasks and trust your team to deliver?' },
-  { key: 'accountability',         label: 'Accountability',         description: 'How consistently do you take ownership of outcomes and commitments?' },
-  { key: 'planning',               label: 'Planning',               description: 'How effectively do you set priorities and organise work toward goals?' },
-  { key: 'emotional_intelligence', label: 'Emotional Intelligence', description: 'How well do you understand and manage your emotions and those of others?' },
-  { key: 'coaching_mentoring',     label: 'Coaching & Mentoring',   description: 'How actively do you develop the people around you?' },
-  { key: 'decision_making',        label: 'Decision Making',        description: 'How confidently and effectively do you make decisions under pressure?' },
-  { key: 'conflict_resolution',    label: 'Conflict Resolution',    description: 'How constructively do you handle disagreements and tensions?' },
+  { key: 'leadership_awareness',    label: 'Leadership Awareness',    description: 'How clearly do you understand your own leadership style, strengths, and blind spots?' },
+  { key: 'delegation',              label: 'Delegation',              description: 'How well do you assign tasks and trust your team to deliver?' },
+  { key: 'communication',           label: 'Communication',           description: 'How clearly and effectively do you share information and listen to others?' },
+  { key: 'decision_making',         label: 'Decision Making',         description: 'How confidently and effectively do you make decisions under pressure?' },
+  { key: 'accountability',          label: 'Accountability',          description: 'How consistently do you take ownership of outcomes and commitments?' },
+  { key: 'stakeholder_management',  label: 'Stakeholder Management',  description: 'How effectively do you identify, engage, and manage the expectations of key stakeholders?' },
+  { key: 'team_development',        label: 'Team Development',        description: 'How intentionally do you build, develop, and grow the people on your team?' },
+  { key: 'coaching',                label: 'Coaching',                description: 'How actively do you coach and develop the people around you to reach their potential?' },
+  { key: 'influence',               label: 'Influence',               description: 'How effectively do you lead through influence rather than authority?' },
+  { key: 'execution_excellence',    label: 'Execution Excellence',    description: 'How consistently do you translate plans into results and drive initiatives to completion?' },
 ]
 
 function shuffle(arr) {
@@ -110,7 +112,7 @@ export default function Assessment() {
   }
 
   async function submit() {
-    if (Object.keys(ratings).length < 8) { toast.error('Please rate all competencies before submitting'); return }
+    if (Object.keys(ratings).length < 10) { toast.error('Please rate all competencies before submitting'); return }
     setSubmitting(true)
     try {
       const { error } = await supabase.from('assessments').insert({ participant_id: participant.id, type, scores: ratings })
@@ -204,7 +206,7 @@ export default function Assessment() {
           <div className="card bg-[#0F52BA]/5 border border-[#0F52BA]/15 mb-4">
             <p className="text-sm text-gray-600 text-center">
               {allRated
-                ? 'All 8 competencies rated. Ready to submit.'
+                ? 'All 10 competencies rated. Ready to submit.'
                 : `${COMPETENCIES.filter(c => !ratings[c.key]).length} competency(s) still need a rating.`
               }
             </p>
@@ -223,7 +225,7 @@ export default function Assessment() {
   const currentKey = order[currentIndex]
   const comp = COMPETENCIES.find(c => c.key === currentKey)
   const ratedCount = COMPETENCIES.filter(c => ratings[c.key]).length
-  const progress = Math.round((ratedCount / 8) * 100)
+  const progress = Math.round((ratedCount / 10) * 100)
 
   return (
     <div className="min-h-screen bg-gray-50">

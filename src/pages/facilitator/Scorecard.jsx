@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import NavBar from '../../components/NavBar'
 import toast from 'react-hot-toast'
@@ -20,6 +21,7 @@ export default function FacilitatorScorecard() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(null)
   const [selected, setSelected] = useState(null)
+  const [computed, setComputed] = useState({})
 
   useEffect(() => { load() }, [])
 
@@ -52,6 +54,28 @@ export default function FacilitatorScorecard() {
     const max = FIELDS.find(f => f.key === field)?.max || 0
     const clamped = Math.min(max, Math.max(0, parseFloat(value) || 0))
     setEdits(e => ({ ...e, [participantId]: { ...getEdits(participantId), [field]: clamped } }))
+  }
+
+  useEffect(() => {
+    if (!selected) { setComputed({}); return }
+    loadComputed(selected)
+  }, [selected])
+
+  async function loadComputed(participantId) {
+    const [{ data: peers }, { data: mgr }] = await Promise.all([
+      supabase.from('peer_feedback').select('rating').eq('recipient_id', participantId),
+      supabase.from('manager_assessments').select('leadership_growth, delegation_empowerment, communication_influence, accountability_execution, coaching_others').eq('participant_id', participantId).eq('submitted', true).single(),
+    ])
+    const result = {}
+    if (peers?.length > 0) {
+      const avg = peers.reduce((s, r) => s + r.rating, 0) / peers.length
+      result.peer_feedback_score = parseFloat(((avg / 5) * 10).toFixed(1))
+      result.peer_count = peers.length
+    }
+    if (mgr) {
+      result.manager_score = (mgr.leadership_growth || 0) + (mgr.delegation_empowerment || 0) + (mgr.communication_influence || 0) + (mgr.accountability_execution || 0) + (mgr.coaching_others || 0)
+    }
+    setComputed(result)
   }
 
   async function save(participantId) {
@@ -129,13 +153,30 @@ export default function FacilitatorScorecard() {
         {/* Edit panel */}
         {selected && selectedParticipant && (
           <div className="card border-2 border-[#0F52BA]">
-            <h2 className="font-bold text-gray-900 mb-4">Editing: {selectedParticipant.name}</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-bold text-gray-900">Editing: {selectedParticipant.name}</h2>
+              <Link to="/facilitator/manager-assessments" className="text-xs text-[#0F52BA] font-semibold hover:underline">
+                Manager Assessments →
+              </Link>
+            </div>
             <div className="grid sm:grid-cols-2 gap-4 mb-4">
               {FIELDS.map(f => {
                 const val = getEdits(selected)[f.key]
+                const computedVal = computed[f.key]
+                const isPeer = f.key === 'peer_feedback_score'
+                const isMgr  = f.key === 'manager_score'
                 return (
                   <div key={f.key}>
-                    <label className="label">{f.label} <span className="text-gray-400 font-normal">/ {f.max}</span></label>
+                    <div className="flex items-center justify-between">
+                      <label className="label">{f.label} <span className="text-gray-400 font-normal">/ {f.max}</span></label>
+                      {computedVal !== undefined && (
+                        <button type="button"
+                          onClick={() => updateEdit(selected, f.key, computedVal)}
+                          className="text-xs text-[#0F52BA] font-semibold hover:underline mb-1">
+                          Use {computedVal}{isPeer && computed.peer_count ? ` (${computed.peer_count} ratings)` : ''}
+                        </button>
+                      )}
+                    </div>
                     <p className="text-xs text-gray-400 mb-1">{f.desc}</p>
                     <input type="number" className="input" min={0} max={f.max} step="0.5" value={val}
                       onChange={e => updateEdit(selected, f.key, e.target.value)} />

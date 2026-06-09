@@ -13,6 +13,9 @@ import Commit from './pages/participant/Commit'
 import Assignments from './pages/participant/Assignments'
 import Growth from './pages/participant/Growth'
 import ParticipantMentorship from './pages/participant/Mentorship'
+import PeerFeedback from './pages/participant/PeerFeedback'
+import ManagerAssess from './pages/ManagerAssess'
+import FacilitatorManagerAssessments from './pages/facilitator/ManagerAssessments'
 import PublicAttend from './pages/Attend'
 import FacilitatorLogin from './pages/facilitator/Login'
 import FacilitatorDashboard from './pages/facilitator/Dashboard'
@@ -32,6 +35,7 @@ export default function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/attend/:sessionId" element={<PublicAttend />} />
+      <Route path="/manager-assess/:token" element={<ManagerAssess />} />
 
       <Route element={<ParticipantRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
@@ -42,6 +46,7 @@ export default function App() {
         <Route path="/dashboard/assignments" element={<Assignments />} />
         <Route path="/dashboard/growth" element={<Growth />} />
         <Route path="/dashboard/mentorship" element={<ParticipantMentorship />} />
+        <Route path="/dashboard/peer-feedback" element={<PeerFeedback />} />
       </Route>
 
       <Route path="/facilitator/login" element={<FacilitatorLogin />} />
@@ -53,6 +58,7 @@ export default function App() {
         <Route path="/facilitator/scorecard" element={<FacilitatorScorecard />} />
         <Route path="/facilitator/mentorship" element={<FacilitatorMentorship />} />
         <Route path="/facilitator/mentors" element={<FacilitatorMentorAssign />} />
+        <Route path="/facilitator/manager-assessments" element={<FacilitatorManagerAssessments />} />
         <Route path="/facilitator/awards" element={<FacilitatorAwards />} />
         <Route path="/facilitator/export" element={<FacilitatorExport />} />
       </Route>

@@ -21,6 +21,7 @@ export default function NavBar({ facilitatorMode = false }) {
     { to: '/dashboard/assignments', label: 'Assignments' },
     { to: '/dashboard/commit', label: 'Commitments' },
     { to: '/dashboard/mentorship', label: 'Mentorship' },
+    { to: '/dashboard/peer-feedback', label: 'Peer Feedback' },
     { to: '/dashboard/journal', label: 'Journal' },
     { to: '/dashboard/growth', label: 'Growth' },
   ]

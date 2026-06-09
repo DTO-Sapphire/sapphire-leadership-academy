@@ -58,11 +58,16 @@ export default function FacilitatorSessions() {
                 {[1,2,3,4].map(w => <option key={w} value={w}>Week {w}</option>)}
               </select>
             </div>
-            <div className="flex items-center gap-3 mt-6">
+            <div className="flex flex-col gap-2 mt-2">
               <button
                 onClick={() => updateSetting('final_assessment_open', settings.final_assessment_open === 'true' ? 'false' : 'true')}
                 className={settings.final_assessment_open === 'true' ? 'btn-danger' : 'btn-primary'}>
                 {settings.final_assessment_open === 'true' ? 'Close Final Assessment' : 'Open Final Assessment'}
+              </button>
+              <button
+                onClick={() => updateSetting('peer_feedback_open', settings.peer_feedback_open === 'true' ? 'false' : 'true')}
+                className={settings.peer_feedback_open === 'true' ? 'btn-danger' : 'btn-primary'}>
+                {settings.peer_feedback_open === 'true' ? 'Close Peer Feedback' : 'Open Peer Feedback'}
               </button>
             </div>
           </div>

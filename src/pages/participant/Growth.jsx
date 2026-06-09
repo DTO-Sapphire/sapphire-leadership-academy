@@ -5,14 +5,16 @@ import NavBar from '../../components/NavBar'
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, Tooltip } from 'recharts'
 
 const COMPETENCIES = [
-  { key: 'communication',          label: 'Communication' },
+  { key: 'leadership_awareness',   label: 'Awareness' },
   { key: 'delegation',             label: 'Delegation' },
-  { key: 'accountability',         label: 'Accountability' },
-  { key: 'planning',               label: 'Planning' },
-  { key: 'emotional_intelligence', label: 'EQ' },
-  { key: 'coaching_mentoring',     label: 'Coaching' },
+  { key: 'communication',          label: 'Communication' },
   { key: 'decision_making',        label: 'Decisions' },
-  { key: 'conflict_resolution',    label: 'Conflict' },
+  { key: 'accountability',         label: 'Accountability' },
+  { key: 'stakeholder_management', label: 'Stakeholders' },
+  { key: 'team_development',       label: 'Team Dev.' },
+  { key: 'coaching',               label: 'Coaching' },
+  { key: 'influence',              label: 'Influence' },
+  { key: 'execution_excellence',   label: 'Execution' },
 ]
 
 export default function Growth() {
@@ -60,8 +62,8 @@ export default function Growth() {
     fullMark: 10,
   }))
 
-  const baselineAvg = COMPETENCIES.reduce((sum, c) => sum + scores(c.key).b, 0) / 8
-  const finalAvg   = COMPETENCIES.reduce((sum, c) => sum + scores(c.key).f, 0) / 8
+  const baselineAvg = COMPETENCIES.reduce((sum, c) => sum + scores(c.key).b, 0) / 10
+  const finalAvg   = COMPETENCIES.reduce((sum, c) => sum + scores(c.key).f, 0) / 10
   const growthPct  = baselineAvg > 0 ? ((finalAvg - baselineAvg) / baselineAvg * 100).toFixed(1) : '0.0'
   const isPositive = finalAvg >= baselineAvg
 
