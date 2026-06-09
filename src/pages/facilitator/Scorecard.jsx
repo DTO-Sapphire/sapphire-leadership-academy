@@ -4,7 +4,7 @@ import NavBar from '../../components/NavBar'
 import toast from 'react-hot-toast'
 
 const FIELDS = [
-  { key: 'attendance_score',      label: 'Attendance',         max: 10, desc: 'Sessions attended out of 8' },
+  { key: 'attendance_score',      label: 'Attendance',         max: 10, desc: 'Sessions attended out of 12' },
   { key: 'participation_score',   label: 'Participation',      max: 15, desc: 'EXCO rating of engagement and contribution' },
   { key: 'assignment_score',      label: 'Assignments',        max: 20, desc: 'Weekly assignment completion and quality' },
   { key: 'mentorship_score',      label: 'Mentorship',         max: 15, desc: 'Mentorship participation and engagement' },

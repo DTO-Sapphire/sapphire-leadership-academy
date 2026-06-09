@@ -159,7 +159,8 @@ export default function Dashboard() {
               const attended = attendedIds.has(s.id)
               const reflected = reflectedIds.has(s.id)
               const date = new Date(s.session_date + 'T00:00:00')
-              const isPast = date < new Date()
+              const sessionEnd = new Date(s.session_date + 'T09:00:00')
+              const isPast = sessionEnd < new Date()
               const laws = s.session_laws?.map(sl => sl.laws?.name).filter(Boolean).join(', ')
               return (
                 <div key={s.id} className="flex items-start gap-3 py-3 border-b border-gray-100 last:border-0">
@@ -169,7 +170,7 @@ export default function Dashboard() {
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-sm text-gray-900">{s.title}</p>
                     {laws && <p className="text-xs text-gray-500 truncate">{laws}</p>}
-                    <p className="text-xs text-gray-400">{date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })} · {s.facilitators?.name}</p>
+                    <p className="text-xs text-gray-400">{date.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}</p>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     <span className={attended ? 'badge-green' : isPast ? 'badge-red' : 'badge-gray'}>
