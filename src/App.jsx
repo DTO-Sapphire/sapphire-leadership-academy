@@ -32,6 +32,9 @@ const FacilitatorManagerAssessments = lazy(() => import('./pages/facilitator/Man
 const FacilitatorAwards          = lazy(() => import('./pages/facilitator/Awards'))
 const FacilitatorExport          = lazy(() => import('./pages/facilitator/Export'))
 const FacilitatorBroadcast       = lazy(() => import('./pages/facilitator/Broadcast'))
+const FacilitatorInsights        = lazy(() => import('./pages/facilitator/Insights'))
+const FacilitatorCommitments     = lazy(() => import('./pages/facilitator/Commitments'))
+const ParticipantProfile         = lazy(() => import('./pages/facilitator/ParticipantProfile'))
 
 function PageLoader() {
   return (
@@ -76,6 +79,9 @@ export default function App() {
           <Route path="/facilitator/awards" element={<FacilitatorAwards />} />
           <Route path="/facilitator/export" element={<FacilitatorExport />} />
           <Route path="/facilitator/broadcast" element={<FacilitatorBroadcast />} />
+          <Route path="/facilitator/insights" element={<FacilitatorInsights />} />
+          <Route path="/facilitator/commitments" element={<FacilitatorCommitments />} />
+          <Route path="/facilitator/participant/:id" element={<ParticipantProfile />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
