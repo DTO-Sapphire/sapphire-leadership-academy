@@ -74,7 +74,7 @@ export default function Growth() {
         <h1 className="text-2xl font-bold text-gray-900 mb-1">Leadership Growth Index</h1>
         <p className="text-gray-500 text-sm mb-6">Self-assessed leadership development across the programme.</p>
 
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div className="card text-center">
             <p className="text-2xl font-bold text-gray-500">{baselineAvg.toFixed(1)}</p>
             <p className="text-xs text-gray-400 mt-1">Baseline avg</p>

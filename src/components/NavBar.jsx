@@ -49,18 +49,17 @@ export default function NavBar({ facilitatorMode = false }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo mark */}
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-3 flex-1 min-w-0 overflow-hidden">
             <Link to={facilitatorMode ? '/facilitator' : '/dashboard'} className="flex items-center shrink-0">
               <img src="/logo.png" alt="Sapphire" className="h-7 w-auto" />
             </Link>
 
             {/* Nav links */}
-            <div className="hidden md:flex items-center gap-0.5">
+            <div className="hidden md:flex items-center gap-0.5 flex-1 min-w-0 overflow-x-auto [&::-webkit-scrollbar]:hidden">
               {links.map(l => {
                 const active = location.pathname === l.to
                 return (
-                  <Link key={l.to} to={l.to}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${active ? 'bg-white/20 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
+                  <Link key={l.to} to={l.to} className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${active ? 'bg-white/20 text-white' : 'text-white/70 hover:text-white hover:bg-white/10'}`}>
                     {l.label}
                   </Link>
                 )

@@ -113,7 +113,7 @@ export default function Insights() {
         <div className="flex gap-1 bg-gray-100 p-1 rounded-xl mb-6 overflow-x-auto">
           {TABS.map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-all ${tab === t.key ? 'bg-white text-[#0F52BA] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
+              className={`shrink-0 flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold whitespace-nowrap transition-all ${tab === t.key ? 'bg-white text-[#0F52BA] shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
               {t.icon}{t.label}
             </button>
           ))}
@@ -143,7 +143,7 @@ export default function Insights() {
 
             {/* Individual table */}
             <div className="card overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full min-w-[400px] text-sm">
                 <thead>
                   <tr className="border-b border-gray-100">
                     <th className="text-left py-2.5 font-semibold text-gray-600 pr-4">Participant</th>
