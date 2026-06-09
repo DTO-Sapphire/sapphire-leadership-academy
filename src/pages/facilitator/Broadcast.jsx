@@ -94,7 +94,8 @@ export default function Broadcast() {
       const data = await resp.json()
       if (!resp.ok) throw new Error(data.error || 'Failed to send')
       setResult(data)
-      toast.success(`Sent to ${data.sent} recipient${data.sent !== 1 ? 's' : ''}`)
+      if (data.failed === 0) toast.success(`Sent to all ${data.sent} recipients`)
+      else toast.success(`Sent ${data.sent}, failed ${data.failed}`)
     } catch (err) {
       toast.error(err.message)
     } finally {
@@ -191,8 +192,17 @@ export default function Broadcast() {
         </div>
 
         {result && (
-          <div className={`rounded-xl px-4 py-3 mb-4 text-sm font-medium ${result.failed === 0 ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-amber-50 border border-amber-200 text-amber-800'}`}>
-            {result.sent} email{result.sent !== 1 ? 's' : ''} sent successfully{result.failed > 0 ? `, ${result.failed} failed` : ''}.
+          <div className={`rounded-xl px-4 py-3 mb-4 text-sm ${result.failed === 0 ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-amber-50 border border-amber-200 text-amber-800'}`}>
+            <p className="font-medium">{result.sent} email{result.sent !== 1 ? 's' : ''} sent successfully{result.failed > 0 ? `, ${result.failed} failed` : ''}.</p>
+            {result.failures?.length > 0 && (
+              <ul className="mt-2 space-y-1">
+                {result.failures.map((f, i) => (
+                  <li key={i} className="text-xs">
+                    <span className="font-semibold">{f.name}</span> ({f.email}) — {f.reason}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         )}
 

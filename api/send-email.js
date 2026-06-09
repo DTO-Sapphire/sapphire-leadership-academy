@@ -37,8 +37,11 @@ export default async function handler(req, res) {
   )
 
   const sent = results.filter(r => r.status === 'fulfilled').length
-  const failed = results.filter(r => r.status === 'rejected').length
-  res.status(200).json({ sent, failed })
+  const failures = results
+    .map((r, i) => r.status === 'rejected' ? { name: recipients[i].name, email: recipients[i].email, reason: r.reason?.message || 'Unknown error' } : null)
+    .filter(Boolean)
+
+  res.status(200).json({ sent, failed: failures.length, failures })
 }
 
 function buildHtml(name, body) {
