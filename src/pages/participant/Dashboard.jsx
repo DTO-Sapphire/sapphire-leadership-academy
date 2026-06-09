@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
+import { cache } from '../../lib/cache'
 import NavBar from '../../components/NavBar'
 import { CheckCircle, BookOpen, Star, TrendingUp, AlertCircle, Copy, Check, User } from 'lucide-react'
 
@@ -33,6 +34,10 @@ export default function Dashboard() {
   }, [participant])
 
   async function loadData() {
+    const cacheKey = `p-dash-${participant.id}`
+    const cached = cache.get(cacheKey)
+    if (cached) { setData(cached); setLoading(false) }
+
     const [sessions, attendance, reflections, scorecard, baseline, final, assignments, submissions, settings, mentorResult] = await Promise.all([
       supabase.from('sessions').select('*, facilitators(name), session_laws(laws(name, law_number))').order('session_number'),
       supabase.from('attendance').select('session_id').eq('participant_id', participant.id),
@@ -48,7 +53,7 @@ export default function Dashboard() {
         : Promise.resolve({ data: null }),
     ])
     const settingsMap = Object.fromEntries((settings.data || []).map(s => [s.key, s.value]))
-    setData({
+    const fresh = {
       sessions: sessions.data || [],
       attendedIds: new Set((attendance.data || []).map(a => a.session_id)),
       reflectedIds: new Set((reflections.data || []).map(r => r.session_id)),
@@ -60,7 +65,9 @@ export default function Dashboard() {
       finalOpen: settingsMap.final_assessment_open === 'true',
       programmeWeek: parseInt(settingsMap.programme_week || '1'),
       mentor: mentorResult.data || null,
-    })
+    }
+    cache.set(cacheKey, fresh)
+    setData(fresh)
     setLoading(false)
   }
 

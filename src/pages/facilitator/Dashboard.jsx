@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
+import { cache } from '../../lib/cache'
 import NavBar from '../../components/NavBar'
 import { Users, CheckCircle, BookOpen, Star, TrendingUp, Award, Copy, Check } from 'lucide-react'
 
@@ -38,6 +39,9 @@ export default function FacilitatorDashboard() {
   useEffect(() => { load() }, [])
 
   async function load() {
+    const cached = cache.get('f-dash')
+    if (cached) { setStats(cached); setLoading(false) }
+
     const [participants, sessions, attendance, reflections, assessments, scorecards, awards] = await Promise.all([
       supabase.from('participants').select('id, name, department'),
       supabase.from('sessions').select('id, session_number, title, session_date, is_open, reflections_open').order('session_number'),
@@ -53,7 +57,9 @@ export default function FacilitatorDashboard() {
     const baselines = assessments.data?.filter(a => a.type === 'baseline').length || 0
     const finals = assessments.data?.filter(a => a.type === 'final').length || 0
     const graduated = scorecards.data?.filter(s => s.graduated).length || 0
-    setStats({ participants: participants.data, pCount, sessions: sessions.data, openSessions, attPairs, reflections: reflections.data?.length || 0, baselines, finals, graduated, scorecards: scorecards.data, awards: awards.data })
+    const fresh = { participants: participants.data, pCount, sessions: sessions.data, openSessions, attPairs, reflections: reflections.data?.length || 0, baselines, finals, graduated, scorecards: scorecards.data, awards: awards.data }
+    cache.set('f-dash', fresh)
+    setStats(fresh)
     setLoading(false)
   }
 

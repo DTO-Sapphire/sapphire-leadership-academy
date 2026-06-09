@@ -1,69 +1,83 @@
+import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Landing from './pages/Landing'
-import NotFound from './pages/NotFound'
-import Register from './pages/Register'
-import Login from './pages/Login'
 import ParticipantRoute from './components/ParticipantRoute'
 import FacilitatorRoute from './components/FacilitatorRoute'
-import Dashboard from './pages/participant/Dashboard'
-import Assessment from './pages/participant/Assessment'
-import Reflect from './pages/participant/Reflect'
-import Journal from './pages/participant/Journal'
-import Commit from './pages/participant/Commit'
-import Assignments from './pages/participant/Assignments'
-import Growth from './pages/participant/Growth'
-import ParticipantMentorship from './pages/participant/Mentorship'
-import PeerFeedback from './pages/participant/PeerFeedback'
-import ManagerAssess from './pages/ManagerAssess'
-import FacilitatorManagerAssessments from './pages/facilitator/ManagerAssessments'
-import PublicAttend from './pages/Attend'
-import FacilitatorLogin from './pages/facilitator/Login'
-import FacilitatorDashboard from './pages/facilitator/Dashboard'
-import FacilitatorLive from './pages/facilitator/Live'
-import FacilitatorSessions from './pages/facilitator/Sessions'
-import FacilitatorAttend from './pages/facilitator/Attend'
-import FacilitatorScorecard from './pages/facilitator/Scorecard'
-import FacilitatorMentorship from './pages/facilitator/Mentorship'
-import FacilitatorMentorAssign from './pages/facilitator/MentorAssign'
-import FacilitatorAwards from './pages/facilitator/Awards'
-import FacilitatorExport from './pages/facilitator/Export'
+
+const Landing                   = lazy(() => import('./pages/Landing'))
+const NotFound                  = lazy(() => import('./pages/NotFound'))
+const Register                  = lazy(() => import('./pages/Register'))
+const Login                     = lazy(() => import('./pages/Login'))
+const PublicAttend               = lazy(() => import('./pages/Attend'))
+const ManagerAssess              = lazy(() => import('./pages/ManagerAssess'))
+
+const Dashboard                  = lazy(() => import('./pages/participant/Dashboard'))
+const Assessment                 = lazy(() => import('./pages/participant/Assessment'))
+const Reflect                    = lazy(() => import('./pages/participant/Reflect'))
+const Journal                    = lazy(() => import('./pages/participant/Journal'))
+const Commit                     = lazy(() => import('./pages/participant/Commit'))
+const Assignments                = lazy(() => import('./pages/participant/Assignments'))
+const Growth                     = lazy(() => import('./pages/participant/Growth'))
+const ParticipantMentorship      = lazy(() => import('./pages/participant/Mentorship'))
+const PeerFeedback               = lazy(() => import('./pages/participant/PeerFeedback'))
+
+const FacilitatorLogin           = lazy(() => import('./pages/facilitator/Login'))
+const FacilitatorDashboard       = lazy(() => import('./pages/facilitator/Dashboard'))
+const FacilitatorLive            = lazy(() => import('./pages/facilitator/Live'))
+const FacilitatorSessions        = lazy(() => import('./pages/facilitator/Sessions'))
+const FacilitatorAttend          = lazy(() => import('./pages/facilitator/Attend'))
+const FacilitatorScorecard       = lazy(() => import('./pages/facilitator/Scorecard'))
+const FacilitatorMentorship      = lazy(() => import('./pages/facilitator/Mentorship'))
+const FacilitatorMentorAssign    = lazy(() => import('./pages/facilitator/MentorAssign'))
+const FacilitatorManagerAssessments = lazy(() => import('./pages/facilitator/ManagerAssessments'))
+const FacilitatorAwards          = lazy(() => import('./pages/facilitator/Awards'))
+const FacilitatorExport          = lazy(() => import('./pages/facilitator/Export'))
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0F52BA]" />
+    </div>
+  )
+}
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/attend/:sessionId" element={<PublicAttend />} />
-      <Route path="/manager-assess/:token" element={<ManagerAssess />} />
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/attend/:sessionId" element={<PublicAttend />} />
+        <Route path="/manager-assess/:token" element={<ManagerAssess />} />
 
-      <Route element={<ParticipantRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/dashboard/assessment" element={<Assessment />} />
-        <Route path="/dashboard/reflect" element={<Reflect />} />
-        <Route path="/dashboard/journal" element={<Journal />} />
-        <Route path="/dashboard/commit" element={<Commit />} />
-        <Route path="/dashboard/assignments" element={<Assignments />} />
-        <Route path="/dashboard/growth" element={<Growth />} />
-        <Route path="/dashboard/mentorship" element={<ParticipantMentorship />} />
-        <Route path="/dashboard/peer-feedback" element={<PeerFeedback />} />
-      </Route>
+        <Route element={<ParticipantRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/assessment" element={<Assessment />} />
+          <Route path="/dashboard/reflect" element={<Reflect />} />
+          <Route path="/dashboard/journal" element={<Journal />} />
+          <Route path="/dashboard/commit" element={<Commit />} />
+          <Route path="/dashboard/assignments" element={<Assignments />} />
+          <Route path="/dashboard/growth" element={<Growth />} />
+          <Route path="/dashboard/mentorship" element={<ParticipantMentorship />} />
+          <Route path="/dashboard/peer-feedback" element={<PeerFeedback />} />
+        </Route>
 
-      <Route path="/facilitator/login" element={<FacilitatorLogin />} />
-      <Route element={<FacilitatorRoute />}>
-        <Route path="/facilitator" element={<FacilitatorDashboard />} />
-        <Route path="/facilitator/live" element={<FacilitatorLive />} />
-        <Route path="/facilitator/sessions" element={<FacilitatorSessions />} />
-        <Route path="/facilitator/attend" element={<FacilitatorAttend />} />
-        <Route path="/facilitator/scorecard" element={<FacilitatorScorecard />} />
-        <Route path="/facilitator/mentorship" element={<FacilitatorMentorship />} />
-        <Route path="/facilitator/mentors" element={<FacilitatorMentorAssign />} />
-        <Route path="/facilitator/manager-assessments" element={<FacilitatorManagerAssessments />} />
-        <Route path="/facilitator/awards" element={<FacilitatorAwards />} />
-        <Route path="/facilitator/export" element={<FacilitatorExport />} />
-      </Route>
+        <Route path="/facilitator/login" element={<FacilitatorLogin />} />
+        <Route element={<FacilitatorRoute />}>
+          <Route path="/facilitator" element={<FacilitatorDashboard />} />
+          <Route path="/facilitator/live" element={<FacilitatorLive />} />
+          <Route path="/facilitator/sessions" element={<FacilitatorSessions />} />
+          <Route path="/facilitator/attend" element={<FacilitatorAttend />} />
+          <Route path="/facilitator/scorecard" element={<FacilitatorScorecard />} />
+          <Route path="/facilitator/mentorship" element={<FacilitatorMentorship />} />
+          <Route path="/facilitator/mentors" element={<FacilitatorMentorAssign />} />
+          <Route path="/facilitator/manager-assessments" element={<FacilitatorManagerAssessments />} />
+          <Route path="/facilitator/awards" element={<FacilitatorAwards />} />
+          <Route path="/facilitator/export" element={<FacilitatorExport />} />
+        </Route>
 
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Suspense>
   )
 }
