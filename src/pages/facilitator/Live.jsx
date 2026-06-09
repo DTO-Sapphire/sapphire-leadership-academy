@@ -41,7 +41,7 @@ export default function FacilitatorLive() {
       <div className="max-w-5xl mx-auto px-4 py-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Sapphire Leadership Academy</h1>
+            <h1 className="text-xl sm:text-3xl font-bold tracking-tight">Sapphire Leadership Academy</h1>
             <p className="text-blue-200 text-sm mt-1">Live Session View — Auto-refreshes every 15s</p>
           </div>
           <select className="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-sm text-white"

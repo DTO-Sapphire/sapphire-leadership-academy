@@ -276,7 +276,7 @@ export default function Assessment() {
           </div>
         )}
 
-        <div className="mt-4 grid grid-cols-4 gap-2">
+        <div className="mt-4 grid grid-cols-5 gap-2">
           {order.map((k, i) => {
             const c = COMPETENCIES.find(c => c.key === k)
             return (

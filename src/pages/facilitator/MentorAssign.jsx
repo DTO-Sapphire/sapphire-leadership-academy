@@ -105,21 +105,23 @@ export default function MentorAssign() {
             {participants.map((p, i) => (
               <div
                 key={p.id}
-                className={`flex items-center gap-3 py-3 ${i < participants.length - 1 ? 'border-b border-gray-100' : ''}`}
+                className={`flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 py-3 ${i < participants.length - 1 ? 'border-b border-gray-100' : ''}`}
               >
-                <div className="w-7 h-7 rounded-full bg-[#0F52BA]/10 flex items-center justify-center text-xs font-bold text-[#0F52BA] shrink-0">
-                  {i + 1}
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="w-7 h-7 rounded-full bg-[#0F52BA]/10 flex items-center justify-center text-xs font-bold text-[#0F52BA] shrink-0">
+                    {i + 1}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-gray-900">{p.name}</p>
+                    <p className="text-xs text-gray-400">{p.department}</p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-gray-900">{p.name}</p>
-                  <p className="text-xs text-gray-400">{p.department}</p>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex items-center gap-2">
                   {saving === p.id && (
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#0F52BA]" />
                   )}
                   <select
-                    className="input text-sm py-1.5 max-w-[210px]"
+                    className="input text-sm py-1.5 w-full sm:w-auto sm:max-w-[210px]"
                     value={assignments[p.id] || ''}
                     disabled={saving === p.id}
                     onChange={e => assign(p.id, e.target.value)}

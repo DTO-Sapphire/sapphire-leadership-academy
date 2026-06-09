@@ -116,7 +116,7 @@ export default function Growth() {
               const diff = f - b
               return (
                 <div key={c.key} className="flex items-center gap-3">
-                  <div className="w-24 text-xs text-gray-600 shrink-0">{c.label}</div>
+                  <div className="w-16 sm:w-24 text-xs text-gray-600 shrink-0">{c.label}</div>
                   <div className="flex-1 relative h-5 bg-gray-100 rounded-full overflow-hidden">
                     <div className="absolute inset-y-0 left-0 bg-gray-300 rounded-full" style={{ width: `${b * 10}%` }} />
                     <div className="absolute inset-y-0 left-0 bg-[#0F52BA] rounded-full opacity-70" style={{ width: `${f * 10}%` }} />
