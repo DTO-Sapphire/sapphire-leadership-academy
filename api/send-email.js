@@ -2,6 +2,10 @@ import nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
+  pool: true,
+  maxConnections: 1,
+  rateDelta: 500,
+  rateLimit: 2,
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD,
@@ -25,21 +29,25 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Missing required fields' })
   }
 
-  const results = await Promise.allSettled(
-    recipients.map(r =>
-      transporter.sendMail({
+  const results = []
+  for (const r of recipients) {
+    try {
+      await transporter.sendMail({
         from: `"Sapphire Leadership Academy" <${process.env.GMAIL_USER}>`,
         to: r.email,
         subject,
         html: buildHtml(r.name, body),
       })
-    )
-  )
+      results.push({ status: 'fulfilled', recipient: r })
+    } catch (err) {
+      results.push({ status: 'rejected', recipient: r, reason: err })
+    }
+  }
 
   const sent = results.filter(r => r.status === 'fulfilled').length
   const failures = results
-    .map((r, i) => r.status === 'rejected' ? { name: recipients[i].name, email: recipients[i].email, reason: r.reason?.message || 'Unknown error' } : null)
-    .filter(Boolean)
+    .filter(r => r.status === 'rejected')
+    .map(r => ({ name: r.recipient.name, email: r.recipient.email, reason: r.reason?.message || 'Unknown error' }))
 
   res.status(200).json({ sent, failed: failures.length, failures })
 }
