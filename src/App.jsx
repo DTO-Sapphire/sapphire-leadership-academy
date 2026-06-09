@@ -12,6 +12,7 @@ import Journal from './pages/participant/Journal'
 import Commit from './pages/participant/Commit'
 import Assignments from './pages/participant/Assignments'
 import Growth from './pages/participant/Growth'
+import ParticipantMentorship from './pages/participant/Mentorship'
 import PublicAttend from './pages/Attend'
 import FacilitatorLogin from './pages/facilitator/Login'
 import FacilitatorDashboard from './pages/facilitator/Dashboard'
@@ -20,6 +21,7 @@ import FacilitatorSessions from './pages/facilitator/Sessions'
 import FacilitatorAttend from './pages/facilitator/Attend'
 import FacilitatorScorecard from './pages/facilitator/Scorecard'
 import FacilitatorMentorship from './pages/facilitator/Mentorship'
+import FacilitatorMentorAssign from './pages/facilitator/MentorAssign'
 import FacilitatorAwards from './pages/facilitator/Awards'
 import FacilitatorExport from './pages/facilitator/Export'
 
@@ -39,6 +41,7 @@ export default function App() {
         <Route path="/dashboard/commit" element={<Commit />} />
         <Route path="/dashboard/assignments" element={<Assignments />} />
         <Route path="/dashboard/growth" element={<Growth />} />
+        <Route path="/dashboard/mentorship" element={<ParticipantMentorship />} />
       </Route>
 
       <Route path="/facilitator/login" element={<FacilitatorLogin />} />
@@ -49,6 +52,7 @@ export default function App() {
         <Route path="/facilitator/attend" element={<FacilitatorAttend />} />
         <Route path="/facilitator/scorecard" element={<FacilitatorScorecard />} />
         <Route path="/facilitator/mentorship" element={<FacilitatorMentorship />} />
+        <Route path="/facilitator/mentors" element={<FacilitatorMentorAssign />} />
         <Route path="/facilitator/awards" element={<FacilitatorAwards />} />
         <Route path="/facilitator/export" element={<FacilitatorExport />} />
       </Route>

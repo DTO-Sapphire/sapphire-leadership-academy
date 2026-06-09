@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
 import NavBar from '../../components/NavBar'
-import { CheckCircle, BookOpen, Star, TrendingUp, AlertCircle, Copy, Check } from 'lucide-react'
+import { CheckCircle, BookOpen, Star, TrendingUp, AlertCircle, Copy, Check, User } from 'lucide-react'
 
 function ShareLink() {
   const [copied, setCopied] = useState(false)
@@ -33,7 +33,7 @@ export default function Dashboard() {
   }, [participant])
 
   async function loadData() {
-    const [sessions, attendance, reflections, scorecard, baseline, final, assignments, submissions, settings] = await Promise.all([
+    const [sessions, attendance, reflections, scorecard, baseline, final, assignments, submissions, settings, mentorResult] = await Promise.all([
       supabase.from('sessions').select('*, facilitators(name), session_laws(laws(name, law_number))').order('session_number'),
       supabase.from('attendance').select('session_id').eq('participant_id', participant.id),
       supabase.from('reflections').select('session_id').eq('participant_id', participant.id),
@@ -43,6 +43,9 @@ export default function Dashboard() {
       supabase.from('weekly_assignments').select('*').order('week_number'),
       supabase.from('assignment_submissions').select('assignment_id').eq('participant_id', participant.id),
       supabase.from('settings').select('*'),
+      participant.mentor_id
+        ? supabase.from('facilitators').select('id, name').eq('id', participant.mentor_id).single()
+        : Promise.resolve({ data: null }),
     ])
     const settingsMap = Object.fromEntries((settings.data || []).map(s => [s.key, s.value]))
     setData({
@@ -56,6 +59,7 @@ export default function Dashboard() {
       submittedAssignments: new Set((submissions.data || []).map(s => s.assignment_id)),
       finalOpen: settingsMap.final_assessment_open === 'true',
       programmeWeek: parseInt(settingsMap.programme_week || '1'),
+      mentor: mentorResult.data || null,
     })
     setLoading(false)
   }
@@ -69,7 +73,7 @@ export default function Dashboard() {
     </div>
   )
 
-  const { sessions, attendedIds, reflectedIds, scorecard, baseline, final, assignments, submittedAssignments, finalOpen, programmeWeek } = data
+  const { sessions, attendedIds, reflectedIds, scorecard, baseline, final, assignments, submittedAssignments, finalOpen, programmeWeek, mentor } = data
   const attended = attendedIds.size
   const totalSessions = sessions.length
   const score = scorecard?.total_score ?? 0
@@ -150,6 +154,20 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
+
+        {/* Mentor card */}
+        <Link to="/dashboard/mentorship" className="card flex items-center gap-4 mb-8 hover:shadow-md transition-shadow group">
+          <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${mentor ? 'bg-[#0A3480]' : 'bg-gray-100'}`}>
+            <User size={18} className={mentor ? 'text-white' : 'text-gray-400'} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs text-gray-500 font-medium">Your EXCO Mentor</p>
+            <p className={`font-bold text-sm ${mentor ? 'text-gray-900' : 'text-gray-400'}`}>
+              {mentor ? mentor.name : 'Not yet assigned'}
+            </p>
+          </div>
+          <span className="text-xs text-[#0F52BA] font-semibold group-hover:underline shrink-0">View →</span>
+        </Link>
 
         {/* Sessions list */}
         <div className="card">
