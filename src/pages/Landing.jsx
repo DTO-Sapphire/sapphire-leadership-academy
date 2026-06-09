@@ -61,14 +61,8 @@ export default function Landing() {
 
       {/* Sticky navbar */}
       <nav style={{ background: '#0A3480' }} className="sticky top-0 z-50 flex items-center justify-between px-5 py-3 shadow-lg">
-        <div className="flex items-center gap-2.5">
-          <svg width="28" height="26" viewBox="0 0 52 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <polygon points="4,2 38,2 34,20 0,20" fill="white" opacity="0.9"/>
-            <polygon points="14,24 44,24 40,44 10,44" fill="#00C2CB"/>
-            <circle cx="47" cy="44" r="5.5" fill="#FFAF46"/>
-          </svg>
-          <span className="text-white font-bold text-sm tracking-tight hidden sm:block">Sapphire Leadership Academy</span>
-          <span className="text-white font-bold text-sm tracking-tight sm:hidden">SLA</span>
+        <div className="flex items-center">
+          <img src="/logo.png" alt="Sapphire" className="h-7 w-auto" />
         </div>
         <Link to="/facilitator/login"
           className="flex items-center gap-2 bg-[#FFAF46] hover:bg-[#f09c2e] text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors shadow-md">
@@ -83,11 +77,7 @@ export default function Landing() {
         className="text-white px-4 pt-20 pb-24 sm:pt-28 sm:pb-32 text-center">
         <div className="max-w-3xl mx-auto">
           <div className="flex justify-center mb-8">
-            <svg width="56" height="52" viewBox="0 0 52 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <polygon points="4,2 38,2 34,20 0,20" fill="white" opacity="0.95"/>
-              <polygon points="14,24 44,24 40,44 10,44" fill="#00C2CB"/>
-              <circle cx="47" cy="44" r="5.5" fill="#FFAF46"/>
-            </svg>
+            <img src="/logo.png" alt="Sapphire" className="h-14 w-auto" />
           </div>
 
           <div className="inline-block bg-white/10 border border-white/20 rounded-full px-4 py-1 text-xs text-[#98DFEA] tracking-widest uppercase mb-6">
