@@ -1,8 +1,12 @@
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM = 'Sapphire Leadership Academy <onboarding@resend.dev>'
-const REPLY_TO = 'sapphire.leadership.academy1@gmail.com'
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+})
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -23,9 +27,8 @@ export default async function handler(req, res) {
 
   const results = await Promise.allSettled(
     recipients.map(r =>
-      resend.emails.send({
-        from: FROM,
-        reply_to: REPLY_TO,
+      transporter.sendMail({
+        from: `"Sapphire Leadership Academy" <${process.env.GMAIL_USER}>`,
         to: r.email,
         subject,
         html: buildHtml(r.name, body),
