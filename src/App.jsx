@@ -31,6 +31,7 @@ const FacilitatorMentorAssign    = lazy(() => import('./pages/facilitator/Mentor
 const FacilitatorManagerAssessments = lazy(() => import('./pages/facilitator/ManagerAssessments'))
 const FacilitatorAwards          = lazy(() => import('./pages/facilitator/Awards'))
 const FacilitatorExport          = lazy(() => import('./pages/facilitator/Export'))
+const FacilitatorBroadcast       = lazy(() => import('./pages/facilitator/Broadcast'))
 
 function PageLoader() {
   return (
@@ -74,6 +75,7 @@ export default function App() {
           <Route path="/facilitator/manager-assessments" element={<FacilitatorManagerAssessments />} />
           <Route path="/facilitator/awards" element={<FacilitatorAwards />} />
           <Route path="/facilitator/export" element={<FacilitatorExport />} />
+          <Route path="/facilitator/broadcast" element={<FacilitatorBroadcast />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

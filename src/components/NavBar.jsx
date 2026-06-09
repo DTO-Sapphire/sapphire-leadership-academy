@@ -35,6 +35,7 @@ export default function NavBar({ facilitatorMode = false }) {
     { to: '/facilitator/mentors', label: 'Mentors' },
     { to: '/facilitator/awards', label: 'Awards' },
     { to: '/facilitator/export', label: 'Export' },
+    { to: '/facilitator/broadcast', label: 'Broadcast' },
     { to: '/facilitator/live', label: 'Live' },
   ]
 
