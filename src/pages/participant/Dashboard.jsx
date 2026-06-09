@@ -184,7 +184,7 @@ export default function Dashboard() {
               const attended = attendedIds.has(s.id)
               const reflected = reflectedIds.has(s.id)
               const date = new Date(s.session_date + 'T00:00:00')
-              const sessionEnd = new Date(s.session_date + 'T09:00:00')
+              const sessionEnd = new Date(s.session_date + 'T10:30:00')
               const isPast = sessionEnd < new Date()
               const laws = s.session_laws?.map(sl => sl.laws?.name).filter(Boolean).join(', ')
               return (
