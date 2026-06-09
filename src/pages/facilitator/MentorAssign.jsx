@@ -16,10 +16,10 @@ export default function MentorAssign() {
   async function load() {
     const [{ data: parts }, { data: facs }] = await Promise.all([
       supabase.from('participants').select('id, name, department, mentor_id').order('name'),
-      supabase.from('facilitators').select('id, name').order('name'),
+      supabase.from('facilitators').select('id, name, role').order('name'),
     ])
     setParticipants(parts || [])
-    setFacilitators(facs || [])
+    setFacilitators((facs || []).filter(f => f.role !== 'coordinator'))
     const map = {}
     ;(parts || []).forEach(p => { map[p.id] = p.mentor_id || '' })
     setAssignments(map)

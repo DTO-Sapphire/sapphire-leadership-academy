@@ -22,10 +22,16 @@ export default function FacilitatorMentorship() {
 
   useEffect(() => { if (facilitator) load() }, [facilitator])
 
+  const isCoordinator = facilitator?.role === 'coordinator'
+
   async function load() {
     const [{ data: parts }, { data: sess }] = await Promise.all([
-      supabase.from('participants').select('id, name, department').eq('mentor_id', facilitator.id).order('name'),
-      supabase.from('mentorship_sessions').select('*, participants(name)').eq('facilitator_id', facilitator.id).order('session_date', { ascending: false }),
+      isCoordinator
+        ? supabase.from('participants').select('id, name, department, mentor_id, facilitators(name)').order('name')
+        : supabase.from('participants').select('id, name, department').eq('mentor_id', facilitator.id).order('name'),
+      isCoordinator
+        ? supabase.from('mentorship_sessions').select('*, participants(name), facilitators(name)').order('session_date', { ascending: false })
+        : supabase.from('mentorship_sessions').select('*, participants(name)').eq('facilitator_id', facilitator.id).order('session_date', { ascending: false }),
     ])
     setMentees(parts || [])
     setSessions(sess || [])
@@ -80,11 +86,15 @@ export default function FacilitatorMentorship() {
 
         <div className="flex items-start justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Mentorship Sessions</h1>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {isCoordinator ? 'Mentorship Overview' : 'Mentorship Sessions'}
+            </h1>
             <p className="text-sm text-gray-500 mt-1">
-              {mentees.length > 0
-                ? `Your mentees: ${mentees.map(m => m.name).join(', ')}`
-                : 'No mentees assigned to you yet.'}
+              {isCoordinator
+                ? `${sessions.length} session${sessions.length !== 1 ? 's' : ''} logged across all mentors`
+                : mentees.length > 0
+                  ? `Your mentees: ${mentees.map(m => m.name).join(', ')}`
+                  : 'No mentees assigned to you yet.'}
             </p>
           </div>
           <Link to="/facilitator/mentors" className="flex items-center gap-1.5 text-xs font-semibold text-[#0F52BA] hover:text-[#0a3a9e] transition-colors shrink-0">
@@ -92,7 +102,53 @@ export default function FacilitatorMentorship() {
           </Link>
         </div>
 
-        {mentees.length === 0 ? (
+        {isCoordinator ? (
+          <>
+            <div className="card mb-6">
+              <h2 className="font-semibold text-gray-900 mb-3">Participant Mentor Assignments</h2>
+              <div className="space-y-0">
+                {mentees.map((p, i) => (
+                  <div key={p.id} className={`flex items-center justify-between py-2.5 ${i < mentees.length - 1 ? 'border-b border-gray-100' : ''}`}>
+                    <span className="text-sm text-gray-800">{p.name}</span>
+                    <span className={`text-sm ${p.facilitators?.name ? 'text-[#0F52BA] font-medium' : 'text-gray-400'}`}>
+                      {p.facilitators?.name || 'Unassigned'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="card">
+              <h2 className="font-semibold text-gray-900 mb-4">All Sessions ({sessions.length})</h2>
+              {sessions.length === 0 ? (
+                <p className="text-gray-500 text-center py-4">No sessions logged yet.</p>
+              ) : (
+                <div className="space-y-3">
+                  {sessions.map(s => (
+                    <div key={s.id} className="border border-gray-200 rounded-xl p-4">
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <div className="flex items-center gap-2">
+                          <Users size={16} className="text-[#0F52BA]" />
+                          <span className="font-semibold text-gray-900">{s.participants?.name}</span>
+                          <span className="text-xs text-gray-400">with {s.facilitators?.name}</span>
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-gray-400 shrink-0">
+                          <Calendar size={12} />
+                          <span>{new Date(s.session_date + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        </div>
+                      </div>
+                      {s.topics?.length > 0 && (
+                        <div className="flex flex-wrap gap-1 mb-2">
+                          {s.topics.map(t => <span key={t} className="badge-blue">{t}</span>)}
+                        </div>
+                      )}
+                      {s.notes && <p className="text-sm text-gray-600">{s.notes}</p>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </>
+        ) : mentees.length === 0 ? (
           <div className="card text-center py-10">
             <Users size={32} className="text-gray-300 mx-auto mb-3" />
             <p className="font-semibold text-gray-700 mb-1">No mentees assigned to you yet.</p>
