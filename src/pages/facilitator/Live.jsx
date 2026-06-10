@@ -28,7 +28,11 @@ export default function FacilitatorLive() {
     const attMap = {}
     ;(att || []).forEach(a => { attMap[`${a.participant_id}_${a.session_id}`] = true })
     setAttendance(attMap)
-    if (!selectedSession && sess?.length > 0) setSelectedSession(sess[0].id)
+    if (!selectedSession && sess?.length > 0) {
+      const today = new Date().toISOString().slice(0, 10)
+      const current = sess.filter(s => s.session_date <= today).at(-1) || sess[0]
+      setSelectedSession(current.id)
+    }
     setLoading(false)
   }
 
