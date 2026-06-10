@@ -12,6 +12,7 @@ export default function FacilitatorSessions() {
   const [loading, setLoading] = useState(true)
   const [qrSession, setQrSession] = useState(null)
   const [saving, setSaving] = useState(null)
+  const [slideUrls, setSlideUrls] = useState({})
 
   useEffect(() => { load() }, [])
 
@@ -22,7 +23,17 @@ export default function FacilitatorSessions() {
     ])
     setSessions(sess || [])
     setSettings(Object.fromEntries((set || []).map(s => [s.key, s.value])))
+    setSlideUrls(Object.fromEntries((sess || []).map(s => [s.id, s.slide_url || ''])))
     setLoading(false)
+  }
+
+  async function saveSlideUrl(sessionId) {
+    setSaving(`slide_${sessionId}`)
+    const url = slideUrls[sessionId]?.trim() || null
+    const { error } = await supabase.from('sessions').update({ slide_url: url }).eq('id', sessionId)
+    if (error) toast.error(error.message)
+    else toast.success('Slides link saved')
+    setSaving(null)
   }
 
   async function toggleFlag(sessionId, field, current) {
@@ -108,7 +119,7 @@ export default function FacilitatorSessions() {
                     </div>
                     <button onClick={() => setQrSession(s)} className="btn-secondary text-xs px-2 py-1">QR Code</button>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 mb-3">
                     <button
                       disabled={saving === `${s.id}_is_open`}
                       onClick={() => toggleFlag(s.id, 'is_open', s.is_open)}
@@ -122,6 +133,27 @@ export default function FacilitatorSessions() {
                       {s.reflections_open ? 'Reflections Open' : 'Reflections Closed'}
                     </button>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="url"
+                      className="input text-xs py-1.5 flex-1"
+                      placeholder="Paste Google Drive or slide link..."
+                      value={slideUrls[s.id] || ''}
+                      onChange={e => setSlideUrls(u => ({ ...u, [s.id]: e.target.value }))}
+                    />
+                    <button
+                      onClick={() => saveSlideUrl(s.id)}
+                      disabled={saving === `slide_${s.id}`}
+                      className="btn-secondary text-xs px-3 py-1.5 shrink-0">
+                      {saving === `slide_${s.id}` ? 'Saving...' : 'Save Slides'}
+                    </button>
+                  </div>
+                  {s.slide_url && (
+                    <a href={s.slide_url} target="_blank" rel="noopener noreferrer"
+                      className="text-xs text-[#0F52BA] hover:underline mt-1 inline-block">
+                      View current slides →
+                    </a>
+                  )}
                 </div>
               )
             })}

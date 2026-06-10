@@ -210,6 +210,12 @@ export default function Dashboard() {
                         {reflected ? 'Reflected' : 'Reflect'}
                       </span>
                     )}
+                    {s.slide_url && (
+                      <a href={s.slide_url} target="_blank" rel="noopener noreferrer"
+                        className="text-xs text-[#0F52BA] font-semibold hover:underline">
+                        View Slides →
+                      </a>
+                    )}
                   </div>
                 </div>
               )

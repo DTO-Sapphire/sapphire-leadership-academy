@@ -34,6 +34,7 @@ export default function NavBar({ facilitatorMode = false }) {
     { to: '/facilitator/scorecard', label: 'Scorecard' },
     { to: '/facilitator/mentorship', label: 'Mentorship' },
     { to: '/facilitator/mentors', label: 'Mentors' },
+    { to: '/facilitator/partners', label: 'Partners' },
     { to: '/facilitator/insights', label: 'Insights' },
     { to: '/facilitator/commitments', label: 'Commitments' },
     { to: '/facilitator/awards', label: 'Awards' },

@@ -35,6 +35,7 @@ const FacilitatorExport          = lazy(() => import('./pages/facilitator/Export
 const FacilitatorBroadcast       = lazy(() => import('./pages/facilitator/Broadcast'))
 const FacilitatorInsights        = lazy(() => import('./pages/facilitator/Insights'))
 const FacilitatorCommitments     = lazy(() => import('./pages/facilitator/Commitments'))
+const FacilitatorPartnerAssign   = lazy(() => import('./pages/facilitator/PartnerAssign'))
 const ParticipantProfile         = lazy(() => import('./pages/facilitator/ParticipantProfile'))
 
 function PageLoader() {
@@ -83,6 +84,7 @@ export default function App() {
           <Route path="/facilitator/broadcast" element={<FacilitatorBroadcast />} />
           <Route path="/facilitator/insights" element={<FacilitatorInsights />} />
           <Route path="/facilitator/commitments" element={<FacilitatorCommitments />} />
+          <Route path="/facilitator/partners" element={<FacilitatorPartnerAssign />} />
           <Route path="/facilitator/participant/:id" element={<ParticipantProfile />} />
         </Route>
 
