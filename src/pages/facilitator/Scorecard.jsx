@@ -62,9 +62,13 @@ export default function FacilitatorScorecard() {
   }, [selected])
 
   async function loadComputed(participantId) {
-    const [{ data: peers }, { data: mgr }] = await Promise.all([
+    const [{ data: peers }, { data: mgr }, { data: assignSubs }, { data: exSubs }, { data: allAssigns }, { data: allExs }] = await Promise.all([
       supabase.from('peer_feedback').select('rating').eq('recipient_id', participantId),
       supabase.from('manager_assessments').select('leadership_growth, delegation_empowerment, communication_influence, accountability_execution, coaching_others').eq('participant_id', participantId).eq('submitted', true).single(),
+      supabase.from('assignment_submissions').select('assignment_id, content, submitted_at').eq('participant_id', participantId),
+      supabase.from('session_exercise_submissions').select('exercise_id, content, submitted_at').eq('participant_id', participantId),
+      supabase.from('weekly_assignments').select('id, title, week_number').order('week_number'),
+      supabase.from('session_exercises').select('id, title, session_number').order('session_number').order('created_at'),
     ])
     const result = {}
     if (peers?.length > 0) {
@@ -75,6 +79,10 @@ export default function FacilitatorScorecard() {
     if (mgr) {
       result.manager_score = (mgr.leadership_growth || 0) + (mgr.delegation_empowerment || 0) + (mgr.communication_influence || 0) + (mgr.accountability_execution || 0) + (mgr.coaching_others || 0)
     }
+    result.assignSubs = assignSubs || []
+    result.exSubs = exSubs || []
+    result.allAssigns = allAssigns || []
+    result.allExs = allExs || []
     setComputed(result)
   }
 
@@ -159,6 +167,62 @@ export default function FacilitatorScorecard() {
                 Manager Assessments →
               </Link>
             </div>
+            {/* Submission review for assignment scoring */}
+            {(computed.allAssigns?.length > 0 || computed.allExs?.length > 0) && (
+              <div className="mb-5 border border-gray-200 rounded-xl overflow-hidden">
+                <div className="bg-gray-50 px-4 py-2.5 border-b border-gray-200 flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-sm text-gray-700">Assignment &amp; Exercise Submissions</p>
+                    <p className="text-xs text-gray-400">Review before scoring the Assignments component (20 pts)</p>
+                  </div>
+                  <div className="text-xs text-gray-500 text-right">
+                    <div>{computed.assignSubs?.length || 0}/{computed.allAssigns?.length || 0} assignments</div>
+                    <div>{computed.exSubs?.length || 0}/{computed.allExs?.length || 0} exercises</div>
+                  </div>
+                </div>
+                <div className="p-4 space-y-4">
+                  {computed.allAssigns?.length > 0 && (
+                    <div>
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Weekly Assignments</p>
+                      <div className="space-y-2">
+                        {computed.allAssigns.map(a => {
+                          const sub = computed.assignSubs?.find(s => s.assignment_id === a.id)
+                          return (
+                            <div key={a.id} className={`rounded-lg p-3 text-xs border ${sub ? 'bg-green-50 border-green-100' : 'bg-red-50 border-red-100'}`}>
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="font-semibold text-gray-700">Week {a.week_number} — {a.title}</span>
+                                <span className={sub ? 'badge-green' : 'badge-red'}>{sub ? 'Submitted' : 'Not submitted'}</span>
+                              </div>
+                              {sub && <p className="text-gray-600 mt-1 leading-relaxed">{sub.content.length > 200 ? sub.content.slice(0, 200) + '…' : sub.content}</p>}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+                  {computed.allExs?.length > 0 && (
+                    <div>
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">Class Exercises</p>
+                      <div className="space-y-2">
+                        {computed.allExs.map(e => {
+                          const sub = computed.exSubs?.find(s => s.exercise_id === e.id)
+                          return (
+                            <div key={e.id} className={`rounded-lg p-3 text-xs border ${sub ? 'bg-green-50 border-green-100' : 'bg-red-50 border-red-100'}`}>
+                              <div className="flex items-center justify-between mb-1">
+                                <span className="font-semibold text-gray-700">Session {e.session_number} — {e.title}</span>
+                                <span className={sub ? 'badge-green' : 'badge-red'}>{sub ? 'Submitted' : 'Not submitted'}</span>
+                              </div>
+                              {sub && <p className="text-gray-600 mt-1 leading-relaxed">{sub.content.length > 200 ? sub.content.slice(0, 200) + '…' : sub.content}</p>}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className="grid sm:grid-cols-2 gap-4 mb-4">
               {FIELDS.map(f => {
                 const val = getEdits(selected)[f.key]
