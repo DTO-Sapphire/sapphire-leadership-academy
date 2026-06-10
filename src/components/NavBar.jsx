@@ -19,6 +19,7 @@ export default function NavBar({ facilitatorMode = false }) {
     { to: '/dashboard/assessment', label: 'Assessment' },
     { to: '/dashboard/reflect', label: 'Reflections' },
     { to: '/dashboard/assignments', label: 'Assignments' },
+    { to: '/dashboard/exercises', label: 'Exercises' },
     { to: '/dashboard/commit', label: 'Commitments' },
     { to: '/dashboard/mentorship', label: 'Mentorship' },
     { to: '/dashboard/peer-feedback', label: 'Peer Feedback' },

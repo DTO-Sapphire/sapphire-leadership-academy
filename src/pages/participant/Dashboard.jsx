@@ -86,6 +86,10 @@ export default function Dashboard() {
   const score = scorecard?.total_score ?? 0
   const currentWeekAssignment = assignments.find(a => a.week_number === programmeWeek)
   const currentAssignmentDone = currentWeekAssignment && submittedAssignments.has(currentWeekAssignment.id)
+  const assignmentDaysLeft = currentWeekAssignment
+    ? (new Date(currentWeekAssignment.due_date + 'T23:59:59') - new Date()) / (1000 * 60 * 60 * 24)
+    : null
+  const showAssignmentBanner = currentWeekAssignment && !currentAssignmentDone && assignmentDaysLeft !== null && assignmentDaysLeft <= 2
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -135,7 +139,7 @@ export default function Dashboard() {
             </div>
           </div>
         )}
-        {currentWeekAssignment && !currentAssignmentDone && (
+        {showAssignmentBanner && (
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4 flex items-start gap-3">
             <BookOpen className="text-blue-600 mt-0.5 shrink-0" size={20} />
             <div>

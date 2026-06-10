@@ -19,6 +19,7 @@ const Assignments                = lazy(() => import('./pages/participant/Assign
 const Growth                     = lazy(() => import('./pages/participant/Growth'))
 const ParticipantMentorship      = lazy(() => import('./pages/participant/Mentorship'))
 const PeerFeedback               = lazy(() => import('./pages/participant/PeerFeedback'))
+const SessionExercises           = lazy(() => import('./pages/participant/SessionExercises'))
 
 const FacilitatorLogin           = lazy(() => import('./pages/facilitator/Login'))
 const FacilitatorDashboard       = lazy(() => import('./pages/facilitator/Dashboard'))
@@ -64,6 +65,7 @@ export default function App() {
           <Route path="/dashboard/growth" element={<Growth />} />
           <Route path="/dashboard/mentorship" element={<ParticipantMentorship />} />
           <Route path="/dashboard/peer-feedback" element={<PeerFeedback />} />
+          <Route path="/dashboard/exercises" element={<SessionExercises />} />
         </Route>
 
         <Route path="/facilitator/login" element={<FacilitatorLogin />} />
