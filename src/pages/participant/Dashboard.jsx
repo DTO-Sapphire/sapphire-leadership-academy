@@ -38,7 +38,7 @@ export default function Dashboard() {
     const cached = cache.get(cacheKey)
     if (cached) { setData(cached); setLoading(false) }
 
-    const [sessions, attendance, reflections, scorecard, baseline, final, assignments, submissions, settings, mentorResult] = await Promise.all([
+    const [sessions, attendance, reflections, scorecard, baseline, final, assignments, submissions, settings, mentorResult, exercises, exerciseSubs] = await Promise.all([
       supabase.from('sessions').select('*, facilitators(name), session_laws(laws(name, law_number))').order('session_number'),
       supabase.from('attendance').select('session_id').eq('participant_id', participant.id),
       supabase.from('reflections').select('session_id').eq('participant_id', participant.id),
@@ -51,8 +51,16 @@ export default function Dashboard() {
       participant.mentor_id
         ? supabase.from('facilitators').select('id, name').eq('id', participant.mentor_id).single()
         : Promise.resolve({ data: null }),
+      supabase.from('session_exercises').select('id, session_number'),
+      supabase.from('session_exercise_submissions').select('exercise_id').eq('participant_id', participant.id),
     ])
     const settingsMap = Object.fromEntries((settings.data || []).map(s => [s.key, s.value]))
+    const exercisesBySession = {}
+    for (const ex of (exercises.data || [])) {
+      if (!exercisesBySession[ex.session_number]) exercisesBySession[ex.session_number] = []
+      exercisesBySession[ex.session_number].push(ex.id)
+    }
+    const submittedExerciseIds = new Set((exerciseSubs.data || []).map(s => s.exercise_id))
     const fresh = {
       sessions: sessions.data || [],
       attendedIds: new Set((attendance.data || []).map(a => a.session_id)),
@@ -65,6 +73,8 @@ export default function Dashboard() {
       finalOpen: settingsMap.final_assessment_open === 'true',
       programmeWeek: parseInt(settingsMap.programme_week || '1'),
       mentor: mentorResult.data || null,
+      exercisesBySession,
+      submittedExerciseIds,
     }
     cache.set(cacheKey, fresh)
     setData(fresh)
@@ -80,7 +90,7 @@ export default function Dashboard() {
     </div>
   )
 
-  const { sessions, attendedIds, reflectedIds, scorecard, baseline, final, assignments, submittedAssignments, finalOpen, programmeWeek, mentor } = data
+  const { sessions, attendedIds, reflectedIds, scorecard, baseline, final, assignments, submittedAssignments, finalOpen, programmeWeek, mentor, exercisesBySession, submittedExerciseIds } = data
   const attended = attendedIds.size
   const totalSessions = sessions.length
   const score = scorecard?.total_score ?? 0
@@ -206,10 +216,25 @@ export default function Dashboard() {
                       {attended ? 'Attended' : isPast ? 'Missed' : 'Upcoming'}
                     </span>
                     {s.reflections_open && (
-                      <span className={reflected ? 'badge-green' : 'badge-yellow'}>
-                        {reflected ? 'Reflected' : 'Reflect'}
-                      </span>
+                      <Link to="/dashboard/reflect">
+                        <span className={reflected ? 'badge-green' : 'badge-yellow'}>
+                          {reflected ? 'Reflected' : 'Reflect'}
+                        </span>
+                      </Link>
                     )}
+                    {(() => {
+                      const exIds = exercisesBySession[s.session_number] || []
+                      if (exIds.length === 0) return null
+                      const done = exIds.filter(id => submittedExerciseIds.has(id)).length
+                      const allDone = done === exIds.length
+                      return (
+                        <Link to="/dashboard/exercises">
+                          <span className={allDone ? 'badge-green' : 'badge-yellow'}>
+                            {done}/{exIds.length} exercises
+                          </span>
+                        </Link>
+                      )
+                    })()}
                     {s.slide_url && (
                       <a href={s.slide_url} target="_blank" rel="noopener noreferrer"
                         className="text-xs text-[#0F52BA] font-semibold hover:underline">
