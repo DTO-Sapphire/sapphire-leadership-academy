@@ -95,14 +95,12 @@ export default function FacilitatorScorecard() {
   async function save(participantId) {
     setSaving(participantId)
     const data = getEdits(participantId)
-    const total_score = parseFloat(FIELDS.reduce((sum, f) => sum + (parseFloat(data[f.key]) || 0), 0).toFixed(1))
-    const graduated = total_score >= 75
     const existing = scorecards[participantId]
     let error
     if (existing) {
-      ({ error } = await supabase.from('scorecard').update({ ...data, total_score, graduated, updated_at: new Date().toISOString() }).eq('participant_id', participantId))
+      ({ error } = await supabase.from('scorecard').update({ ...data, updated_at: new Date().toISOString() }).eq('participant_id', participantId))
     } else {
-      ({ error } = await supabase.from('scorecard').insert({ participant_id: participantId, ...data, total_score, graduated }))
+      ({ error } = await supabase.from('scorecard').insert({ participant_id: participantId, ...data }))
     }
     if (error) toast.error(error.message)
     else { toast.success('Scorecard saved!'); await load(); setEdits(e => { const n = { ...e }; delete n[participantId]; return n }) }
