@@ -42,7 +42,7 @@ export default function Commit() {
       supabase.from('participants').select('accountability_partner_id').eq('id', participant.id).single(),
       supabase.from('settings').select('key, value').eq('key', 'programme_week').single(),
     ])
-    setProgrammeWeek(parseInt(settings?.data?.value || '1'))
+    setProgrammeWeek(parseInt(settings?.value || '1'))
 
     const { data: myComms } = await supabase
       .from('commitments').select('*').eq('participant_id', participant.id).order('created_at')

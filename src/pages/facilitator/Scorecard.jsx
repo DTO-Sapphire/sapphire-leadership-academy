@@ -62,13 +62,15 @@ export default function FacilitatorScorecard() {
   }, [selected])
 
   async function loadComputed(participantId) {
-    const [{ data: peers }, { data: mgr }, { data: assignSubs }, { data: exSubs }, { data: allAssigns }, { data: allExs }] = await Promise.all([
+    const [{ data: peers }, { data: mgr }, { data: assignSubs }, { data: exSubs }, { data: allAssigns }, { data: allExs }, { data: attended }, { count: totalSessions }] = await Promise.all([
       supabase.from('peer_feedback').select('rating').eq('recipient_id', participantId),
       supabase.from('manager_assessments').select('leadership_growth, delegation_empowerment, communication_influence, accountability_execution, coaching_others').eq('participant_id', participantId).eq('submitted', true).single(),
       supabase.from('assignment_submissions').select('assignment_id, content, submitted_at').eq('participant_id', participantId),
       supabase.from('session_exercise_submissions').select('exercise_id, content, submitted_at').eq('participant_id', participantId),
       supabase.from('weekly_assignments').select('id, title, week_number').order('week_number'),
       supabase.from('session_exercises').select('id, title, session_number').order('session_number').order('created_at'),
+      supabase.from('attendance').select('session_id').eq('participant_id', participantId),
+      supabase.from('sessions').select('*', { count: 'exact', head: true }),
     ])
     const result = {}
     if (peers?.length > 0) {
@@ -78,6 +80,10 @@ export default function FacilitatorScorecard() {
     }
     if (mgr) {
       result.manager_score = (mgr.leadership_growth || 0) + (mgr.delegation_empowerment || 0) + (mgr.communication_influence || 0) + (mgr.accountability_execution || 0) + (mgr.coaching_others || 0)
+    }
+    if (attended && totalSessions > 0) {
+      result.attendance_score = parseFloat(((attended.length / totalSessions) * 10).toFixed(1))
+      result.attendance_detail = `${attended.length}/${totalSessions} sessions`
     }
     result.assignSubs = assignSubs || []
     result.exSubs = exSubs || []
@@ -89,12 +95,14 @@ export default function FacilitatorScorecard() {
   async function save(participantId) {
     setSaving(participantId)
     const data = getEdits(participantId)
+    const total_score = parseFloat(FIELDS.reduce((sum, f) => sum + (parseFloat(data[f.key]) || 0), 0).toFixed(1))
+    const graduated = total_score >= 75
     const existing = scorecards[participantId]
     let error
     if (existing) {
-      ({ error } = await supabase.from('scorecard').update({ ...data, updated_at: new Date().toISOString() }).eq('participant_id', participantId))
+      ({ error } = await supabase.from('scorecard').update({ ...data, total_score, graduated, updated_at: new Date().toISOString() }).eq('participant_id', participantId))
     } else {
-      ({ error } = await supabase.from('scorecard').insert({ participant_id: participantId, ...data }))
+      ({ error } = await supabase.from('scorecard').insert({ participant_id: participantId, ...data, total_score, graduated }))
     }
     if (error) toast.error(error.message)
     else { toast.success('Scorecard saved!'); await load(); setEdits(e => { const n = { ...e }; delete n[participantId]; return n }) }
@@ -237,7 +245,9 @@ export default function FacilitatorScorecard() {
                         <button type="button"
                           onClick={() => updateEdit(selected, f.key, computedVal)}
                           className="text-xs text-[#0F52BA] font-semibold hover:underline mb-1">
-                          Use {computedVal}{isPeer && computed.peer_count ? ` (${computed.peer_count} ratings)` : ''}
+                          Use {computedVal}
+                          {isPeer && computed.peer_count ? ` (${computed.peer_count} ratings)` : ''}
+                          {f.key === 'attendance_score' && computed.attendance_detail ? ` (${computed.attendance_detail})` : ''}
                         </button>
                       )}
                     </div>
