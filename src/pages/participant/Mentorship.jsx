@@ -167,13 +167,13 @@ export default function ParticipantMentorship() {
         </div>
 
         {/* Quick stats */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-6">
           {[
-            { icon: <Users size={16} className="text-[#0F52BA]" />,    label: 'Circle Sessions', value: `${circlesAttended}/6` },
-            { icon: <Calendar size={16} className="text-[#0F52BA]" />, label: '1:1 Sessions',    value: sessions.length },
-            { icon: <BookOpen size={16} className="text-[#0F52BA]" />, label: 'Journal Entries', value: `${journalCount}/6` },
+            { icon: <Users size={16} className="text-[#0F52BA]" />,    label: 'Circles', value: `${circlesAttended}/6` },
+            { icon: <Calendar size={16} className="text-[#0F52BA]" />, label: '1:1s',    value: sessions.length },
+            { icon: <BookOpen size={16} className="text-[#0F52BA]" />, label: 'Journals', value: `${journalCount}/6` },
           ].map(s => (
-            <div key={s.label} className="card py-3 text-center">
+            <div key={s.label} className="bg-white rounded-xl shadow-sm border border-gray-100 px-2 py-3 text-center">
               <div className="flex justify-center mb-1">{s.icon}</div>
               <p className="text-lg font-bold text-gray-900">{s.value}</p>
               <p className="text-xs text-gray-500">{s.label}</p>

@@ -17,8 +17,8 @@
   .btn-gold      { @apply bg-[#FFAF46] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#f09c2e] transition-colors disabled:opacity-50; }
 
   /* Cards */
-  .card  { @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6; }
-  .card-teal { @apply bg-[#00C2CB] text-white rounded-xl shadow-sm p-6; }
+  .card      { @apply bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6; }
+  .card-teal { @apply bg-[#00C2CB] text-white rounded-xl shadow-sm p-4 sm:p-6; }
 
   /* Inputs */
   .input { @apply w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#0F52BA] focus:border-transparent; }

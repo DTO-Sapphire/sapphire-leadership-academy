@@ -4,9 +4,88 @@ import { useAuth } from '../../hooks/useAuth'
 import { supabase } from '../../lib/supabase'
 import { cache } from '../../lib/cache'
 import NavBar from '../../components/NavBar'
-import { Users, CheckCircle, BookOpen, Star, TrendingUp, Award, Copy, Check } from 'lucide-react'
+import { Users, CheckCircle, BookOpen, Star, TrendingUp, Award, Copy, Check, UserPlus, X } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 const REGISTER_URL = `${window.location.origin}/register`
+
+const DEPARTMENTS = [
+  'Finance', 'Retail Operations', 'Customer Support', 'Collections & Recovery',
+  'Claims', 'Marketing', 'Digital Transformation Office', 'Human Resources',
+  'Technology', 'Executive / Management', 'Other',
+]
+const EMPTY = { name: '', email: '', department: '', role: '', reporting_manager: '', phone: '' }
+
+function AddParticipantModal({ onClose, onAdded }) {
+  const [form, setForm] = useState(EMPTY)
+  const [saving, setSaving] = useState(false)
+
+  async function submit(e) {
+    e.preventDefault()
+    if (!form.name.trim() || !form.email.trim()) { toast.error('Name and email are required'); return }
+    setSaving(true)
+    try {
+      const res = await fetch('/api/add-participant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${import.meta.env.VITE_BROADCAST_SECRET}` },
+        body: JSON.stringify(form),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to add participant')
+      toast.success(`${form.name} added — welcome email sent!`)
+      setForm(EMPTY)
+      onAdded()
+      onClose()
+    } catch (err) { toast.error(err.message) }
+    finally { setSaving(false) }
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md" onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <h2 className="font-bold text-gray-900">Add New Participant</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><X size={18} /></button>
+        </div>
+        <form onSubmit={submit} className="px-6 py-5 space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="col-span-2">
+              <label className="label">Full Name *</label>
+              <input className="input" required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="Adebayo Okafor" />
+            </div>
+            <div className="col-span-2">
+              <label className="label">Email *</label>
+              <input className="input" type="email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="adebayo@sapphirevirtual.com" />
+            </div>
+            <div>
+              <label className="label">Department</label>
+              <select className="input" value={form.department} onChange={e => setForm(f => ({ ...f, department: e.target.value }))}>
+                <option value="">Select...</option>
+                {DEPARTMENTS.map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="label">Job Title</label>
+              <input className="input" value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))} placeholder="Senior Analyst" />
+            </div>
+            <div>
+              <label className="label">Reporting Manager</label>
+              <input className="input" value={form.reporting_manager} onChange={e => setForm(f => ({ ...f, reporting_manager: e.target.value }))} placeholder="Manager name" />
+            </div>
+            <div>
+              <label className="label">Phone</label>
+              <input className="input" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="08012345678" />
+            </div>
+          </div>
+          <p className="text-xs text-gray-400">A welcome email with a login link will be sent automatically.</p>
+          <button type="submit" disabled={saving} className="btn-primary w-full mt-1">
+            {saving ? 'Adding...' : 'Add Participant & Send Welcome Email'}
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
 
 function CopyLinkBanner() {
   const [copied, setCopied] = useState(false)
@@ -35,6 +114,7 @@ export default function FacilitatorDashboard() {
   const { facilitator } = useAuth()
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [showAddModal, setShowAddModal] = useState(false)
 
   useEffect(() => { load() }, [])
 
@@ -80,10 +160,18 @@ export default function FacilitatorDashboard() {
     <div className="min-h-screen bg-gray-50">
       <NavBar facilitatorMode />
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Facilitator Dashboard</h1>
-          <p className="text-gray-500 text-sm mt-1">Welcome, {facilitator?.name} · {facilitator?.title}</p>
+        <div className="mb-6 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Facilitator Dashboard</h1>
+            <p className="text-gray-500 text-sm mt-1">Welcome, {facilitator?.name} · {facilitator?.title}</p>
+          </div>
+          <button onClick={() => setShowAddModal(true)}
+            className="flex items-center gap-2 bg-[#0F52BA] hover:bg-[#0a3a9e] text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors shrink-0">
+            <UserPlus size={15} /> Add Participant
+          </button>
         </div>
+
+        {showAddModal && <AddParticipantModal onClose={() => setShowAddModal(false)} onAdded={load} />}
 
         <CopyLinkBanner />
 
