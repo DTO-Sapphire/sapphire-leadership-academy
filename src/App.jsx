@@ -20,6 +20,7 @@ const Growth                     = lazy(() => import('./pages/participant/Growth
 const ParticipantMentorship      = lazy(() => import('./pages/participant/Mentorship'))
 const PeerFeedback               = lazy(() => import('./pages/participant/PeerFeedback'))
 const SessionExercises           = lazy(() => import('./pages/participant/SessionExercises'))
+const GroupExercise              = lazy(() => import('./pages/participant/GroupExercise'))
 
 const FacilitatorLogin           = lazy(() => import('./pages/facilitator/Login'))
 const FacilitatorDashboard       = lazy(() => import('./pages/facilitator/Dashboard'))
@@ -36,6 +37,7 @@ const FacilitatorBroadcast       = lazy(() => import('./pages/facilitator/Broadc
 const FacilitatorInsights        = lazy(() => import('./pages/facilitator/Insights'))
 const FacilitatorCommitments     = lazy(() => import('./pages/facilitator/Commitments'))
 const FacilitatorPartnerAssign   = lazy(() => import('./pages/facilitator/PartnerAssign'))
+const FacilitatorGroups          = lazy(() => import('./pages/facilitator/Groups'))
 const ParticipantProfile         = lazy(() => import('./pages/facilitator/ParticipantProfile'))
 
 function PageLoader() {
@@ -67,6 +69,7 @@ export default function App() {
           <Route path="/dashboard/mentorship" element={<ParticipantMentorship />} />
           <Route path="/dashboard/peer-feedback" element={<PeerFeedback />} />
           <Route path="/dashboard/exercises" element={<SessionExercises />} />
+          <Route path="/dashboard/group-exercise" element={<GroupExercise />} />
         </Route>
 
         <Route path="/facilitator/login" element={<FacilitatorLogin />} />
@@ -86,6 +89,7 @@ export default function App() {
           <Route path="/facilitator/commitments" element={<FacilitatorCommitments />} />
           <Route path="/facilitator/partners" element={<FacilitatorPartnerAssign />} />
           <Route path="/facilitator/participant/:id" element={<ParticipantProfile />} />
+          <Route path="/facilitator/groups" element={<FacilitatorGroups />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
