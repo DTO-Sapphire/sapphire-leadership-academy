@@ -21,6 +21,7 @@ export default function NavBar({ facilitatorMode = false }) {
     { to: '/dashboard/assignments', label: 'Assignments' },
     { to: '/dashboard/exercises', label: 'Exercises' },
     { to: '/dashboard/group-exercise', label: 'Group' },
+    { to: '/dashboard/facilitator-feedback', label: 'Feedback' },
     { to: '/dashboard/commit', label: 'Commitments' },
     { to: '/dashboard/mentorship', label: 'Mentorship' },
     { to: '/dashboard/peer-feedback', label: 'Peer Feedback' },
@@ -42,6 +43,7 @@ export default function NavBar({ facilitatorMode = false }) {
     { to: '/facilitator/export', label: 'Export' },
     { to: '/facilitator/broadcast', label: 'Broadcast' },
     { to: '/facilitator/groups', label: 'Groups' },
+    { to: '/facilitator/feedback', label: 'Feedback' },
     { to: '/facilitator/live', label: 'Live' },
   ]
 

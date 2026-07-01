@@ -21,6 +21,7 @@ const ParticipantMentorship      = lazy(() => import('./pages/participant/Mentor
 const PeerFeedback               = lazy(() => import('./pages/participant/PeerFeedback'))
 const SessionExercises           = lazy(() => import('./pages/participant/SessionExercises'))
 const GroupExercise              = lazy(() => import('./pages/participant/GroupExercise'))
+const FacilitatorFeedback        = lazy(() => import('./pages/participant/FacilitatorFeedback'))
 
 const FacilitatorLogin           = lazy(() => import('./pages/facilitator/Login'))
 const FacilitatorDashboard       = lazy(() => import('./pages/facilitator/Dashboard'))
@@ -38,6 +39,7 @@ const FacilitatorInsights        = lazy(() => import('./pages/facilitator/Insigh
 const FacilitatorCommitments     = lazy(() => import('./pages/facilitator/Commitments'))
 const FacilitatorPartnerAssign   = lazy(() => import('./pages/facilitator/PartnerAssign'))
 const FacilitatorGroups          = lazy(() => import('./pages/facilitator/Groups'))
+const FacilitatorFeedbackView    = lazy(() => import('./pages/facilitator/FeedbackView'))
 const ParticipantProfile         = lazy(() => import('./pages/facilitator/ParticipantProfile'))
 
 function PageLoader() {
@@ -70,6 +72,7 @@ export default function App() {
           <Route path="/dashboard/peer-feedback" element={<PeerFeedback />} />
           <Route path="/dashboard/exercises" element={<SessionExercises />} />
           <Route path="/dashboard/group-exercise" element={<GroupExercise />} />
+          <Route path="/dashboard/facilitator-feedback" element={<FacilitatorFeedback />} />
         </Route>
 
         <Route path="/facilitator/login" element={<FacilitatorLogin />} />
@@ -90,6 +93,7 @@ export default function App() {
           <Route path="/facilitator/partners" element={<FacilitatorPartnerAssign />} />
           <Route path="/facilitator/participant/:id" element={<ParticipantProfile />} />
           <Route path="/facilitator/groups" element={<FacilitatorGroups />} />
+          <Route path="/facilitator/feedback" element={<FacilitatorFeedbackView />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
