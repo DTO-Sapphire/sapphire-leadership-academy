@@ -12,6 +12,7 @@ export default function GroupExercise() {
   const [exercises, setExercises] = useState([])
   const [submissions, setSubmissions] = useState({})
   const [responses, setResponses] = useState({})
+  const [editing, setEditing] = useState(new Set())
   const [submitting, setSubmitting] = useState(null)
   const [loading, setLoading] = useState(true)
   const [exerciseIndex, setExerciseIndex] = useState(0)
@@ -73,6 +74,8 @@ export default function GroupExercise() {
           response: content,
         }, { onConflict: 'exercise_id,team_id' })
       if (error) throw error
+      setEditing(e => { const n = new Set(e); n.delete(exercise.id); return n })
+      setResponses(r => { const n = { ...r }; delete n[exercise.id]; return n })
       await load()
       toast.success('Group response submitted!')
     } catch (err) {
@@ -184,7 +187,7 @@ export default function GroupExercise() {
                   <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">{current.description}</p>
                 </div>
 
-                {doneSub ? (
+                {doneSub && !editing.has(current.id) ? (
                   <div className="bg-green-50 rounded-xl p-4">
                     <div className="flex items-center gap-1.5 mb-2">
                       <CheckCircle size={13} className="text-green-600" />
@@ -197,12 +200,15 @@ export default function GroupExercise() {
                       })}
                     </p>
                     <button
-                      onClick={() => setResponses(r => ({ ...r, [current.id]: doneSub.response }))}
+                      onClick={() => {
+                        setEditing(e => new Set([...e, current.id]))
+                        setResponses(r => ({ ...r, [current.id]: doneSub.response }))
+                      }}
                       className="text-xs text-[#0F52BA] hover:underline mt-2 block">
                       Edit response
                     </button>
                   </div>
-                ) : responses[current.id] !== undefined && doneSub === null ? (
+                ) : editing.has(current.id) || responses[current.id] !== undefined ? (
                   <div>
                     <label className="label">Team Response *</label>
                     <p className="text-xs text-gray-400 mb-2">
@@ -214,7 +220,10 @@ export default function GroupExercise() {
                       placeholder="Record your group's collective response here — address the scenario and your commitments specifically..." />
                     <div className="flex gap-2 mt-3">
                       <button
-                        onClick={() => setResponses(r => { const n = { ...r }; delete n[current.id]; return n })}
+                        onClick={() => {
+                          setEditing(e => { const n = new Set(e); n.delete(current.id); return n })
+                          setResponses(r => { const n = { ...r }; delete n[current.id]; return n })
+                        }}
                         className="flex-1 border border-gray-200 text-gray-600 text-sm font-semibold py-2.5 rounded-xl hover:bg-gray-50">
                         Cancel
                       </button>
